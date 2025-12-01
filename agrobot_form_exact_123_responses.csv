@@ -1,0 +1,124 @@
+Name,Age,Occupation,Do you grow/manage crops?,Monitor Frequency,Challenges,Valuable Features,Use Technology,Satisfaction,Interest in Robot,Investment,Concerns
+Bikash Shrestha,61,Agricultural Worker,yes,Occasionally,"Pest control, Crop monitoring, Water management, Weather",Pest detection,yes,4,maybe,Above Rs. 20000,"Maintenance, reliability"
+Sunita Rai,31,Farmer,no,Weekly,Water management,Other,no,Very Satisfied,maybe,Rs. 5000- Rs.10000,"Complexity, none, Accuracy"
+Sunita Shrestha,38,Farmer,yes,Daily,"Weather, Other, Crop monitoring, Soil quality","Moisture monitoring, Crop growth prediction, Weather tracking, Pest detection",no,Very Satisfied,maybe,Rs.2000-Rs.3000,"Maintenance, Complexity, Accuracy"
+Prakash Gurung,62,Agronomist,yes,Occasionally,"Crop monitoring, Other, Soil quality","Other, Soil analysis (pH, NPK, etc.), Pest detection, Moisture monitoring",yes,5,maybe,Rs. 5000- Rs.10000,none
+Sabin Rai,51,Other,yes,Monthly,"Water management, Labor, Crop monitoring, Other","Other, Fertilizer recommendations, Moisture monitoring, Weather tracking",yes,1,yes,Rs.2000-Rs.3000,reliability
+Nabin BK,29,Agricultural Worker,yes,Daily,Crop monitoring,"Soil analysis (pH, NPK, etc.), Pest detection",yes,5,no,Rs.2000-Rs.3000,reliability
+Nabin Gurung,52,Agricultural Worker,yes,Monthly,"Labor, Water management, Other, Weather","Fertilizer recommendations, Other, Moisture monitoring, Pest detection",no,Very Satisfied,yes,Above Rs. 20000,none
+Manoj Thapa,33,Farmer,no,Occasionally,"Water management, Pest control, Crop monitoring","Fertilizer recommendations, Other, Moisture monitoring",yes,1,maybe,Above Rs. 20000,"Maintenance, Accuracy"
+Manoj Rai,22,Agricultural Worker,no,Occasionally,"Water management, Crop monitoring","Fertilizer recommendations, Crop growth prediction, Pest detection, Weather tracking",no,3,no,Above Rs. 20000,"reliability, Accuracy"
+Manoj Gurung,32,Agronomist,yes,Daily,"Soil quality, Pest control","Fertilizer recommendations, Soil analysis (pH, NPK, etc.), Moisture monitoring, Pest detection",no,3,maybe,Rs. 5000- Rs.10000,reliability
+Raju Shrestha,58,Farmer,yes,Daily,"Water management, Crop monitoring",Moisture monitoring,no,Very Satisfied,maybe,Above Rs. 20000,"Accuracy, reliability, Complexity"
+Prakash Shrestha,53,Agronomist,yes,Occasionally,"Pest control, Weather, Water management, Soil quality","Moisture monitoring, Other",yes,Very Satisfied,yes,Rs. 5000- Rs.10000,"Complexity, Accuracy, Maintenance"
+Roshan BK,58,Other,yes,Monthly,Labor,"Pest detection, Moisture monitoring, Weather tracking",no,Very Satisfied,yes,Rs. 5000- Rs.10000,Complexity
+Ram Rai,37,Farmer,yes,Monthly,"Crop monitoring, Soil quality",Weather tracking,yes,5,no,Rs. 5000- Rs.10000,reliability
+Sabin Thapa,36,Other,yes,Occasionally,"Crop monitoring, Pest control, Soil quality, Labor","Crop growth prediction, Weather tracking",yes,2,maybe,Rs. 5000- Rs.10000,"Maintenance, Complexity"
+Sunita Thapa,37,Farmer,no,Daily,"Weather, Crop monitoring, Other, Soil quality","Moisture monitoring, Fertilizer recommendations",yes,1,no,Above Rs. 20000,"none, Accuracy, Complexity"
+Prakash Gurung,31,Agricultural Worker,no,Daily,"Pest control, Crop monitoring, Soil quality, Weather",Crop growth prediction,no,4,yes,Rs.2000-Rs.3000,"Accuracy, Maintenance, reliability"
+Nabin Rai,35,Agronomist,yes,Occasionally,"Crop monitoring, Pest control, Water management","Moisture monitoring, Crop growth prediction",no,Unsatisfied,maybe,Rs. 5000- Rs.10000,"Accuracy, Complexity, none"
+Sabin BK,61,Farmer,yes,Weekly,"Pest control, Weather, Crop monitoring, Soil quality","Soil analysis (pH, NPK, etc.), Crop growth prediction, Moisture monitoring, Fertilizer recommendations",yes,2,maybe,Rs. 5000- Rs.10000,reliability
+Hari Thapa,56,Farmer,no,Occasionally,"Crop monitoring, Water management, Pest control, Weather","Fertilizer recommendations, Other, Pest detection",yes,5,maybe,Above Rs. 20000,"Complexity, none, Maintenance"
+Arun Thapa,20,Agronomist,yes,Weekly,"Crop monitoring, Water management","Crop growth prediction, Weather tracking, Other",yes,Very Satisfied,no,Rs.2000-Rs.3000,"reliability, Maintenance, Accuracy"
+Nabin BK,38,Other,no,Monthly,"Other, Soil quality","Soil analysis (pH, NPK, etc.)",no,Unsatisfied,maybe,Rs. 10000 - Rs. 20000,Maintenance
+Gita Rai,24,Agricultural Worker,yes,Monthly,"Soil quality, Labor, Crop monitoring, Other","Crop growth prediction, Moisture monitoring, Pest detection",yes,Unsatisfied,no,Rs. 5000- Rs.10000,"Maintenance, reliability, none"
+Sarita BK,65,Agronomist,no,Weekly,Crop monitoring,"Weather tracking, Crop growth prediction, Other",yes,3,yes,Above Rs. 20000,reliability
+Deepak Gurung,27,Agricultural Worker,no,Weekly,Labor,"Fertilizer recommendations, Weather tracking, Moisture monitoring",no,3,no,Above Rs. 20000,Complexity
+Gita BK,59,Agronomist,yes,Occasionally,"Labor, Water management","Crop growth prediction, Fertilizer recommendations",yes,3,yes,Rs.2000-Rs.3000,"none, Maintenance"
+Raju Thapa,32,Other,yes,Weekly,"Crop monitoring, Soil quality, Weather, Pest control","Pest detection, Moisture monitoring, Crop growth prediction",yes,1,yes,Rs. 10000 - Rs. 20000,"none, Maintenance"
+Mina BK,24,Agricultural Worker,yes,Weekly,"Other, Pest control",Weather tracking,no,5,yes,Above Rs. 20000,"Complexity, Maintenance, Accuracy"
+Manoj Thapa,39,Agronomist,no,Monthly,"Crop monitoring, Water management","Moisture monitoring, Pest detection, Soil analysis (pH, NPK, etc.), Fertilizer recommendations",yes,3,yes,Above Rs. 20000,Accuracy
+Roshan Rai,46,Farmer,no,Monthly,"Soil quality, Other, Labor","Fertilizer recommendations, Crop growth prediction, Soil analysis (pH, NPK, etc.)",yes,3,no,Above Rs. 20000,Accuracy
+Hari Rai,32,Farmer,no,Weekly,"Crop monitoring, Other, Weather, Pest control","Fertilizer recommendations, Other, Crop growth prediction",no,3,maybe,Rs. 5000- Rs.10000,Maintenance
+Roshan Rai,42,Farmer,no,Weekly,"Water management, Labor","Soil analysis (pH, NPK, etc.), Moisture monitoring",yes,Unsatisfied,no,Rs.2000-Rs.3000,"reliability, none, Accuracy"
+Ram Gurung,64,Other,yes,Weekly,"Weather, Crop monitoring, Labor, Soil quality","Crop growth prediction, Moisture monitoring",yes,Very Satisfied,maybe,Rs. 5000- Rs.10000,Accuracy
+Arun Thapa,32,Agricultural Worker,yes,Occasionally,"Water management, Labor","Crop growth prediction, Other, Moisture monitoring, Soil analysis (pH, NPK, etc.)",yes,4,no,Rs. 5000- Rs.10000,"Maintenance, reliability, Complexity"
+Ram Shrestha,31,Agricultural Worker,no,Monthly,"Water management, Pest control, Labor, Crop monitoring","Moisture monitoring, Other",yes,Unsatisfied,no,Rs.2000-Rs.3000,"Maintenance, Complexity"
+Hari BK,52,Other,no,Monthly,"Weather, Crop monitoring, Other, Soil quality",Other,yes,5,maybe,Above Rs. 20000,"Complexity, none, reliability"
+Sunita Thapa,52,Agronomist,yes,Daily,Weather,"Pest detection, Weather tracking",no,3,maybe,Above Rs. 20000,"none, Complexity"
+Krishna BK,54,Agricultural Worker,no,Daily,"Weather, Soil quality, Pest control","Other, Pest detection, Fertilizer recommendations, Weather tracking",no,3,yes,Rs.2000-Rs.3000,"Complexity, none"
+Roshan Gurung,38,Other,no,Weekly,"Other, Weather","Moisture monitoring, Weather tracking, Other, Soil analysis (pH, NPK, etc.)",no,3,no,Rs. 10000 - Rs. 20000,"Complexity, Maintenance"
+Hari BK,53,Farmer,yes,Occasionally,Weather,Crop growth prediction,yes,5,yes,Above Rs. 20000,Complexity
+Sarita BK,43,Agricultural Worker,no,Monthly,"Labor, Water management, Soil quality","Soil analysis (pH, NPK, etc.), Fertilizer recommendations",yes,Unsatisfied,yes,Above Rs. 20000,"Maintenance, none"
+Krishna Thapa,44,Agronomist,no,Occasionally,"Labor, Pest control, Other","Soil analysis (pH, NPK, etc.), Crop growth prediction",yes,5,yes,Rs.2000-Rs.3000,"Accuracy, Complexity"
+Nabin Thapa,53,Agronomist,no,Weekly,"Other, Soil quality, Labor, Weather","Fertilizer recommendations, Moisture monitoring",yes,1,maybe,Rs. 5000- Rs.10000,none
+Ram Thapa,29,Agricultural Worker,no,Monthly,"Soil quality, Pest control, Weather, Labor",Weather tracking,yes,2,no,Rs. 10000 - Rs. 20000,"Maintenance, reliability, Complexity"
+Nabin Shrestha,35,Agricultural Worker,no,Weekly,"Soil quality, Pest control",Other,no,Very Satisfied,maybe,Rs.2000-Rs.3000,reliability
+Shyam Gurung,61,Farmer,yes,Daily,"Pest control, Water management, Other",Pest detection,no,Very Satisfied,maybe,Above Rs. 20000,Complexity
+Gita Rai,37,Farmer,yes,Monthly,"Water management, Soil quality, Other","Crop growth prediction, Fertilizer recommendations, Moisture monitoring",no,1,maybe,Rs. 10000 - Rs. 20000,reliability
+Kiran Thapa,64,Agricultural Worker,yes,Occasionally,"Labor, Other",Other,no,2,yes,Above Rs. 20000,"none, Maintenance"
+Hari BK,45,Agricultural Worker,yes,Daily,"Pest control, Weather, Crop monitoring, Water management","Moisture monitoring, Soil analysis (pH, NPK, etc.), Pest detection, Weather tracking",yes,5,yes,Rs. 5000- Rs.10000,"Complexity, reliability"
+Mina Gurung,60,Farmer,yes,Daily,"Pest control, Crop monitoring",Fertilizer recommendations,no,5,yes,Rs. 10000 - Rs. 20000,"Complexity, reliability"
+Manoj Shrestha,42,Agricultural Worker,no,Weekly,"Other, Pest control, Soil quality, Weather","Other, Pest detection",no,5,no,Above Rs. 20000,"Maintenance, Accuracy"
+Hari BK,21,Agronomist,no,Weekly,"Crop monitoring, Weather","Weather tracking, Other, Fertilizer recommendations",no,2,no,Above Rs. 20000,"none, Accuracy"
+Sunita Thapa,64,Farmer,yes,Monthly,"Labor, Soil quality, Weather, Other","Pest detection, Weather tracking, Soil analysis (pH, NPK, etc.)",no,Unsatisfied,yes,Rs.2000-Rs.3000,"Accuracy, none, Complexity"
+Hari BK,36,Other,yes,Weekly,"Crop monitoring, Soil quality",Fertilizer recommendations,yes,2,yes,Above Rs. 20000,"reliability, Accuracy"
+Manoj Gurung,38,Other,no,Weekly,"Soil quality, Other, Weather, Labor","Fertilizer recommendations, Pest detection, Soil analysis (pH, NPK, etc.), Weather tracking",no,3,no,Above Rs. 20000,"Maintenance, Accuracy"
+Sabin Thapa,45,Farmer,no,Occasionally,"Weather, Other","Weather tracking, Soil analysis (pH, NPK, etc.)",no,Unsatisfied,maybe,Above Rs. 20000,"reliability, none"
+Mina Shrestha,46,Other,no,Occasionally,"Water management, Labor","Weather tracking, Soil analysis (pH, NPK, etc.), Fertilizer recommendations, Other",yes,1,maybe,Rs.2000-Rs.3000,"Maintenance, none"
+Anita Thapa,64,Farmer,yes,Occasionally,Soil quality,Pest detection,no,1,yes,Above Rs. 20000,"reliability, Maintenance"
+Gita BK,57,Farmer,no,Occasionally,"Soil quality, Weather, Water management","Soil analysis (pH, NPK, etc.), Moisture monitoring, Fertilizer recommendations, Weather tracking",no,5,no,Rs.2000-Rs.3000,"Maintenance, Complexity"
+Sita Gurung,30,Agronomist,yes,Weekly,"Pest control, Weather, Crop monitoring, Soil quality","Soil analysis (pH, NPK, etc.)",no,Unsatisfied,maybe,Above Rs. 20000,"Accuracy, none"
+Sita Gurung,57,Farmer,no,Occasionally,Other,"Fertilizer recommendations, Crop growth prediction",no,4,yes,Above Rs. 20000,"Accuracy, Maintenance, reliability"
+Arun Shrestha,51,Other,no,Monthly,Labor,"Soil analysis (pH, NPK, etc.), Fertilizer recommendations",no,4,yes,Above Rs. 20000,"Complexity, none, reliability"
+Roshan Rai,43,Agronomist,yes,Monthly,"Labor, Other, Soil quality","Crop growth prediction, Moisture monitoring",yes,1,yes,Rs.2000-Rs.3000,"Maintenance, Complexity, none"
+Manoj Gurung,26,Agronomist,yes,Occasionally,"Pest control, Soil quality","Weather tracking, Moisture monitoring, Soil analysis (pH, NPK, etc.), Fertilizer recommendations",yes,4,yes,Rs.2000-Rs.3000,"Maintenance, reliability, none"
+Nabin BK,53,Other,no,Occasionally,Pest control,"Crop growth prediction, Pest detection, Weather tracking, Moisture monitoring",no,4,no,Above Rs. 20000,none
+Anita BK,35,Agricultural Worker,yes,Monthly,"Labor, Soil quality, Pest control, Other",Weather tracking,no,4,yes,Above Rs. 20000,"Complexity, reliability"
+Prakash Gurung,24,Agricultural Worker,no,Daily,"Labor, Pest control, Crop monitoring","Moisture monitoring, Other, Soil analysis (pH, NPK, etc.)",no,5,no,Rs.2000-Rs.3000,"reliability, none, Maintenance"
+Sunita Shrestha,39,Agronomist,no,Monthly,"Soil quality, Water management, Pest control","Moisture monitoring, Other, Crop growth prediction, Pest detection",no,5,no,Rs. 5000- Rs.10000,Maintenance
+Anita BK,52,Other,yes,Monthly,"Labor, Water management, Soil quality, Other","Weather tracking, Pest detection",no,5,yes,Rs. 10000 - Rs. 20000,none
+Ram Gurung,48,Agronomist,yes,Monthly,"Labor, Other, Water management","Pest detection, Soil analysis (pH, NPK, etc.), Crop growth prediction, Fertilizer recommendations",no,2,no,Rs. 5000- Rs.10000,reliability
+Arun Rai,54,Agronomist,no,Weekly,"Water management, Other",Other,no,5,yes,Rs.2000-Rs.3000,"reliability, Complexity"
+Sunita Shrestha,52,Agronomist,no,Weekly,Pest control,"Weather tracking, Soil analysis (pH, NPK, etc.)",yes,1,yes,Rs. 10000 - Rs. 20000,"Complexity, reliability"
+Arun BK,46,Other,no,Monthly,"Soil quality, Pest control, Other, Crop monitoring","Pest detection, Weather tracking",no,Very Satisfied,maybe,Above Rs. 20000,Accuracy
+Roshan Thapa,65,Agronomist,no,Monthly,Water management,"Soil analysis (pH, NPK, etc.), Weather tracking, Other, Pest detection",no,Very Satisfied,maybe,Rs.2000-Rs.3000,Accuracy
+Sita Shrestha,59,Agronomist,yes,Monthly,"Crop monitoring, Labor, Other","Moisture monitoring, Fertilizer recommendations, Soil analysis (pH, NPK, etc.)",yes,Unsatisfied,maybe,Rs. 5000- Rs.10000,Accuracy
+Kiran Gurung,53,Agronomist,yes,Weekly,"Crop monitoring, Soil quality, Labor",Moisture monitoring,no,1,maybe,Rs.2000-Rs.3000,none
+Raju BK,39,Farmer,no,Monthly,"Labor, Other, Soil quality","Fertilizer recommendations, Other, Crop growth prediction, Soil analysis (pH, NPK, etc.)",yes,1,maybe,Rs.2000-Rs.3000,Accuracy
+Roshan Shrestha,22,Farmer,yes,Occasionally,"Pest control, Other",Fertilizer recommendations,yes,2,no,Rs. 10000 - Rs. 20000,"reliability, Maintenance"
+Roshan BK,28,Agricultural Worker,yes,Monthly,Labor,Moisture monitoring,yes,1,maybe,Rs. 5000- Rs.10000,"Complexity, Maintenance"
+Deepak Thapa,22,Farmer,no,Weekly,"Soil quality, Weather","Other, Moisture monitoring, Weather tracking",yes,5,no,Rs. 5000- Rs.10000,"reliability, Complexity, none"
+Hari Gurung,35,Other,yes,Weekly,Soil quality,Crop growth prediction,no,Very Satisfied,no,Rs. 10000 - Rs. 20000,Complexity
+Prakash Shrestha,33,Agricultural Worker,yes,Daily,"Labor, Weather",Other,yes,Very Satisfied,yes,Rs. 5000- Rs.10000,"reliability, none"
+Krishna Shrestha,56,Agronomist,yes,Daily,"Pest control, Weather, Soil quality, Crop monitoring","Soil analysis (pH, NPK, etc.), Fertilizer recommendations",no,1,no,Above Rs. 20000,"Complexity, none"
+Sarita Rai,20,Agronomist,yes,Weekly,Crop monitoring,"Moisture monitoring, Weather tracking",yes,2,maybe,Rs. 10000 - Rs. 20000,"reliability, Complexity"
+Mina Shrestha,46,Farmer,no,Monthly,"Water management, Pest control, Crop monitoring","Pest detection, Weather tracking, Moisture monitoring",no,Unsatisfied,no,Rs. 10000 - Rs. 20000,none
+Kiran Rai,32,Farmer,no,Monthly,"Pest control, Crop monitoring, Water management","Fertilizer recommendations, Crop growth prediction",yes,2,yes,Rs. 10000 - Rs. 20000,Accuracy
+Roshan Shrestha,32,Agricultural Worker,yes,Weekly,"Crop monitoring, Labor, Soil quality","Pest detection, Soil analysis (pH, NPK, etc.)",yes,1,yes,Rs. 10000 - Rs. 20000,"Complexity, Accuracy"
+Ram Gurung,64,Other,yes,Weekly,"Other, Crop monitoring, Labor, Soil quality","Soil analysis (pH, NPK, etc.)",no,5,maybe,Rs. 10000 - Rs. 20000,none
+Manoj Shrestha,41,Agronomist,no,Weekly,Other,"Other, Weather tracking",no,3,no,Rs. 10000 - Rs. 20000,"Accuracy, Complexity, none"
+Sarita Shrestha,33,Agricultural Worker,no,Occasionally,"Water management, Soil quality, Weather","Other, Moisture monitoring, Crop growth prediction",yes,2,maybe,Rs.2000-Rs.3000,"Accuracy, none"
+Sunita BK,54,Agronomist,no,Daily,Pest control,"Weather tracking, Crop growth prediction, Pest detection",yes,Very Satisfied,no,Rs.2000-Rs.3000,"none, Accuracy"
+Sunita Gurung,47,Farmer,no,Occasionally,"Other, Weather, Water management",Fertilizer recommendations,no,Unsatisfied,yes,Above Rs. 20000,"Maintenance, reliability, Complexity"
+Sita Shrestha,26,Agricultural Worker,no,Daily,"Crop monitoring, Soil quality","Fertilizer recommendations, Crop growth prediction",no,5,yes,Rs.2000-Rs.3000,"none, Accuracy"
+Bikash Shrestha,20,Agricultural Worker,yes,Weekly,"Labor, Water management, Pest control","Fertilizer recommendations, Pest detection, Moisture monitoring",no,1,maybe,Rs.2000-Rs.3000,Complexity
+Deepak Thapa,61,Agricultural Worker,no,Weekly,"Pest control, Labor","Moisture monitoring, Crop growth prediction, Fertilizer recommendations, Soil analysis (pH, NPK, etc.)",yes,Very Satisfied,no,Above Rs. 20000,"Maintenance, none"
+Sita Thapa,36,Agricultural Worker,no,Daily,"Other, Weather, Water management","Soil analysis (pH, NPK, etc.), Crop growth prediction, Weather tracking, Fertilizer recommendations",yes,Very Satisfied,no,Rs. 5000- Rs.10000,"none, Maintenance, reliability"
+Manoj BK,50,Agronomist,yes,Monthly,"Soil quality, Pest control, Weather","Weather tracking, Fertilizer recommendations, Crop growth prediction, Soil analysis (pH, NPK, etc.)",no,5,no,Rs.2000-Rs.3000,"Accuracy, none, Complexity"
+Gita Gurung,63,Agronomist,no,Monthly,"Soil quality, Crop monitoring, Water management, Weather","Soil analysis (pH, NPK, etc.), Other",no,Very Satisfied,maybe,Rs.2000-Rs.3000,none
+Gita Thapa,24,Agricultural Worker,yes,Daily,"Pest control, Crop monitoring, Soil quality, Labor","Pest detection, Fertilizer recommendations, Other",yes,Unsatisfied,yes,Rs. 5000- Rs.10000,"reliability, Complexity, Accuracy"
+Hari Gurung,58,Farmer,no,Occasionally,"Crop monitoring, Labor, Other","Pest detection, Weather tracking, Moisture monitoring",no,4,maybe,Rs.2000-Rs.3000,"Accuracy, reliability"
+Mina Thapa,59,Agricultural Worker,no,Daily,Crop monitoring,"Crop growth prediction, Pest detection",no,Very Satisfied,yes,Above Rs. 20000,"Maintenance, reliability, Accuracy"
+Sabin Gurung,38,Agricultural Worker,no,Monthly,"Pest control, Weather, Crop monitoring","Soil analysis (pH, NPK, etc.)",yes,2,yes,Above Rs. 20000,"reliability, none"
+Krishna BK,26,Agronomist,yes,Daily,Crop monitoring,Weather tracking,no,Very Satisfied,yes,Rs. 10000 - Rs. 20000,Accuracy
+Sabin BK,65,Farmer,no,Weekly,"Crop monitoring, Weather","Pest detection, Other, Fertilizer recommendations, Soil analysis (pH, NPK, etc.)",no,5,maybe,Rs.2000-Rs.3000,none
+Mina Gurung,22,Agricultural Worker,no,Daily,"Pest control, Other, Crop monitoring","Moisture monitoring, Soil analysis (pH, NPK, etc.), Fertilizer recommendations, Pest detection",no,1,maybe,Rs. 5000- Rs.10000,Maintenance
+Manoj Thapa,26,Other,no,Weekly,"Crop monitoring, Weather","Crop growth prediction, Soil analysis (pH, NPK, etc.), Moisture monitoring, Pest detection",no,4,maybe,Rs. 10000 - Rs. 20000,Maintenance
+Roshan Gurung,38,Farmer,no,Monthly,"Weather, Crop monitoring",Moisture monitoring,yes,Very Satisfied,no,Rs. 5000- Rs.10000,reliability
+Deepak Gurung,36,Agronomist,yes,Occasionally,"Crop monitoring, Soil quality","Weather tracking, Pest detection, Fertilizer recommendations",no,5,yes,Rs. 5000- Rs.10000,"Complexity, none"
+Roshan Shrestha,55,Farmer,no,Occasionally,Soil quality,"Fertilizer recommendations, Moisture monitoring",no,2,no,Rs. 10000 - Rs. 20000,Accuracy
+Kiran Shrestha,34,Farmer,yes,Daily,"Water management, Weather, Labor, Soil quality","Pest detection, Other",no,2,maybe,Rs.2000-Rs.3000,Maintenance
+Roshan Gurung,28,Agronomist,yes,Occasionally,Labor,Moisture monitoring,no,5,no,Above Rs. 20000,Maintenance
+Ram Gurung,54,Agronomist,no,Daily,"Soil quality, Crop monitoring, Water management","Fertilizer recommendations, Soil analysis (pH, NPK, etc.)",yes,4,no,Rs. 5000- Rs.10000,"Complexity, reliability, Maintenance"
+Sunita Shrestha,51,Farmer,no,Weekly,"Pest control, Water management","Fertilizer recommendations, Other",yes,Very Satisfied,maybe,Rs.2000-Rs.3000,"Complexity, Maintenance, Accuracy"
+Sunita Gurung,44,Farmer,yes,Daily,Other,Fertilizer recommendations,yes,Unsatisfied,maybe,Rs.2000-Rs.3000,"Complexity, none"
+Manoj Shrestha,49,Agronomist,no,Monthly,"Other, Weather, Labor","Weather tracking, Other, Crop growth prediction, Soil analysis (pH, NPK, etc.)",yes,4,yes,Rs.2000-Rs.3000,"Maintenance, none"
+Roshan Shrestha,54,Farmer,yes,Weekly,"Water management, Other, Pest control",Fertilizer recommendations,no,Very Satisfied,yes,Rs. 10000 - Rs. 20000,"Complexity, Maintenance"
+Arun Gurung,57,Farmer,no,Weekly,"Labor, Soil quality","Soil analysis (pH, NPK, etc.), Other",no,4,maybe,Above Rs. 20000,Maintenance
+Sunita Rai,28,Agricultural Worker,no,Weekly,Water management,"Weather tracking, Fertilizer recommendations, Other",yes,3,maybe,Rs.2000-Rs.3000,"Maintenance, reliability"
+Shyam Rai,38,Farmer,no,Daily,Pest control,"Moisture monitoring, Pest detection, Soil analysis (pH, NPK, etc.)",no,Very Satisfied,yes,Above Rs. 20000,"Maintenance, reliability, none"
+Prakash Shrestha,29,Other,no,Occasionally,"Other, Pest control, Labor","Crop growth prediction, Weather tracking",yes,2,maybe,Rs. 10000 - Rs. 20000,"Complexity, reliability"
+Kiran BK,48,Other,yes,Occasionally,"Water management, Other, Pest control",Moisture monitoring,no,Unsatisfied,yes,Rs.2000-Rs.3000,Accuracy
+Bikash Shrestha,33,Other,no,Daily,"Labor, Soil quality, Crop monitoring","Weather tracking, Soil analysis (pH, NPK, etc.), Pest detection",yes,1,yes,Above Rs. 20000,none
+Hari Rai,23,Agronomist,no,Monthly,"Pest control, Water management","Soil analysis (pH, NPK, etc.)",no,1,maybe,Rs.2000-Rs.3000,Maintenance
