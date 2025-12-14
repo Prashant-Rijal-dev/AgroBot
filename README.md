@@ -1,10 +1,10 @@
-# 🌱 AgroBot
+#  AgroBot
 
 AgroBot is an intelligent agriculture-focused system designed to support smart farming through automation, data collection, and AI-driven decision-making. The project aims to improve agricultural efficiency, reduce manual effort, and assist farmers with actionable insights using modern software and AI techniques.
 
 ---
 
-## 📌 Project Overview
+##  Project Overview
 
 AgroBot is developed as part of an academic project and focuses on:
 
@@ -17,7 +17,7 @@ The system is designed with scalability and modularity in mind, allowing future 
 
 ---
 
-## 🎯 Objectives
+##  Objectives
 
 * Automate agricultural monitoring and management tasks
 * Collect and process real-time or historical agricultural data
@@ -27,29 +27,29 @@ The system is designed with scalability and modularity in mind, allowing future 
 
 ---
 
-## 🧠 Key Features
+##  Key Features
 
-* 📊 Data collection and processing
-* 🤖 Intelligent decision-making (AI/ML based)
-* 🌦️ Environmental monitoring (e.g., soil, weather, humidity – simulated or real)
-* 🧑‍🌾 Farmer-friendly system design
-* 🗂️ Modular and well-structured codebase
+*  Data collection and processing
+*  Intelligent decision-making (AI/ML based)
+*  Environmental monitoring (e.g., soil, weather, humidity – simulated or real)
+*  Farmer-friendly system design
+*  Modular and well-structured codebase
 
 ---
 
-## 🛠️ Technologies Used
+##  Technologies Used
 
 > *(Update this section if needed to match your actual implementation)*
 
 * **Programming Language:** Python / Dart / Java (as applicable)
 * **Frameworks:** Flutter / AI libraries / Backend framework
-* **Database:** Oracle / SQLite / Firebase (if used)
+* **Database:**  PostgreSQL
 * **Tools:** Git, GitHub, Jupyter Notebook
 * **AI Techniques:** Machine Learning / Rule-based Logic / Data Analysis
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 AgroBot/
@@ -66,13 +66,13 @@ AgroBot/
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
 * Git
-* Required programming runtime (Python / Flutter SDK / Java, etc.)
-* Database setup (if applicable)
+* Required programming runtime (Python /  Java, etc.)
+* Database setup 
 
 ### Installation
 
@@ -81,11 +81,10 @@ git clone https://github.com/your-username/agrobot.git
 cd agrobot
 ```
 
-> Follow additional setup steps based on your implementation (virtual environment, dependencies, database config, etc.).
 
 ---
 
-## ▶️ Usage
+## Usage
 
 * Run the application or scripts as described in the source folders
 * Configure datasets or database connections if required
@@ -93,7 +92,7 @@ cd agrobot
 
 ---
 
-## 📊 AI Component (If Applicable)
+##  AI Component
 
 The AI module in AgroBot is responsible for:
 
@@ -101,42 +100,10 @@ The AI module in AgroBot is responsible for:
 * Generating predictions or recommendations
 * Supporting smarter decision-making for farming operations
 
-This may include machine learning models, data preprocessing pipelines, or rule-based systems depending on implementation.
+
 
 ---
 
-## 📄 Documentation
-
-Detailed documentation, reports, and screenshots are available in the `docs/` directory. These include:
-
-* System design
-* Architecture diagrams
-* Database design
-* Implementation details
-
----
-
-## 👨‍🎓 Academic Context
-
-This project was developed as part of an academic coursework/final-year project and demonstrates the practical application of:
-
-* Software engineering principles
-* AI and data science concepts
-* System design and documentation
-
----
-
-## 🤝 Contribution
-
-This repository is primarily for academic purposes. However, suggestions and improvements are welcome.
-
----
-
-## 📜 License
-
-This project is intended for educational use. License details can be added if required.
-
----
 
 ## 👤 Author
 
