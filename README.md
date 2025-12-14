@@ -40,10 +40,9 @@ The system is designed with scalability and modularity in mind, allowing future 
 ##  Technologies Used
 
 
-* **Programming Language:** Python / Dart / Java (as applicable)
-* **Frameworks:** Flutter / AI libraries / Backend framework
+* **Programming Language:** Python / HTML/CSS / JavaScript
 * **Database:**  PostgreSQL
-* **Tools:** Git, GitHub, Jupyter Notebook
+* **Tools:** Git, GitHub, Jupyter Notebook, VSCode
 * **AI Techniques:** Machine Learning / Rule-based Logic / Data Analysis
 
 ---
