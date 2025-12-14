@@ -39,7 +39,6 @@ The system is designed with scalability and modularity in mind, allowing future 
 
 ##  Technologies Used
 
-> *(Update this section if needed to match your actual implementation)*
 
 * **Programming Language:** Python / Dart / Java (as applicable)
 * **Frameworks:** Flutter / AI libraries / Backend framework
@@ -105,11 +104,9 @@ The AI module in AgroBot is responsible for:
 ---
 
 
-## 👤 Author
+##  Author
 
 **Prashant Rijal**
-Student – London Metropolitan University
 
 ---
 
-> ✨ Feel free to customize this README to better match your exact implementation, tools, and features.
