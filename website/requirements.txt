@@ -1,0 +1,9 @@
+flask==3.0.3
+flask-sqlalchemy==3.1.1
+flask-login==0.6.3
+werkzeug==3.0.3
+geopandas==1.0.1
+rasterio==1.4.3
+shapely==2.1.0
+numpy==1.26.4
+pandas==2.2.2

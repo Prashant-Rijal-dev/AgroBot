@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block title %}Admin Panel — AgroBot{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4 px-4">
+
+  <div class="mb-4">
+    <h4 class="fw-bold mb-0">
+      <i class="bi bi-shield-check text-primary me-2"></i>Admin Panel
+    </h4>
+    <small class="text-muted">System overview and user management</small>
+  </div>
+
+  <!-- Stats -->
+  <div class="row g-3 mb-4">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card border-0 shadow-sm text-center py-3">
+        <div class="card-body">
+          <div class="stat-icon bg-success-subtle text-success mx-auto mb-2">
+            <i class="bi bi-people-fill fs-4"></i>
+          </div>
+          <div class="display-6 fw-bold text-success">{{ total_farmers }}</div>
+          <div class="text-muted small">Farmers</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card border-0 shadow-sm text-center py-3">
+        <div class="card-body">
+          <div class="stat-icon bg-primary-subtle text-primary mx-auto mb-2">
+            <i class="bi bi-shield-check fs-4"></i>
+          </div>
+          <div class="display-6 fw-bold text-primary">{{ total_admins }}</div>
+          <div class="text-muted small">Admins</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card border-0 shadow-sm text-center py-3">
+        <div class="card-body">
+          <div class="stat-icon bg-warning-subtle text-warning mx-auto mb-2">
+            <i class="bi bi-map fs-4"></i>
+          </div>
+          <div class="display-6 fw-bold text-warning">{{ total_analyses }}</div>
+          <div class="text-muted small">Field Analyses</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card border-0 shadow-sm text-center py-3">
+        <div class="card-body">
+          <div class="stat-icon bg-info-subtle text-info mx-auto mb-2">
+            <i class="bi bi-cpu fs-4"></i>
+          </div>
+          <div class="display-6 fw-bold text-info">
+            <span class="badge bg-success" style="font-size:0.7rem;">LIVE</span>
+          </div>
+          <div class="text-muted small">Sensor Status</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Sensor Snapshot -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-white border-0 pb-0">
+      <h6 class="fw-bold mb-0"><i class="bi bi-activity text-success me-2"></i>System Sensor Snapshot</h6>
+    </div>
+    <div class="card-body">
+      <div class="row g-3 text-center">
+        <div class="col-4 col-md-2">
+          <div class="text-muted small">Moisture</div>
+          <div class="fw-bold text-primary">{{ sample_readings.moisture }}%</div>
+        </div>
+        <div class="col-4 col-md-2">
+          <div class="text-muted small">Temp</div>
+          <div class="fw-bold text-danger">{{ sample_readings.temperature }}°C</div>
+        </div>
+        <div class="col-4 col-md-2">
+          <div class="text-muted small">pH</div>
+          <div class="fw-bold text-warning">{{ sample_readings.ph }}</div>
+        </div>
+        <div class="col-4 col-md-2">
+          <div class="text-muted small">Nitrogen</div>
+          <div class="fw-bold text-success">{{ sample_readings.nitrogen }}</div>
+        </div>
+        <div class="col-4 col-md-2">
+          <div class="text-muted small">Phosphorus</div>
+          <div class="fw-bold text-info">{{ sample_readings.phosphorus }}</div>
+        </div>
+        <div class="col-4 col-md-2">
+          <div class="text-muted small">Potassium</div>
+          <div class="fw-bold text-secondary">{{ sample_readings.potassium }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Table -->
+  <div class="card border-0 shadow-sm">
+    <div class="card-header bg-white border-0 pb-0 d-flex align-items-center justify-content-between">
+      <h6 class="fw-bold mb-0"><i class="bi bi-people me-2 text-muted"></i>Registered Users</h6>
+      <span class="badge bg-secondary">{{ users|length }} total</span>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th class="ps-4">#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Registered</th>
+              <th>Analyses</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in users %}
+            <tr>
+              <td class="ps-4 text-muted small">{{ user.id }}</td>
+              <td>
+                <div class="d-flex align-items-center gap-2">
+                  <div class="avatar-circle-sm">{{ user.name[0].upper() }}</div>
+                  <span class="fw-semibold">{{ user.name }}</span>
+                </div>
+              </td>
+              <td class="text-muted small">{{ user.email }}</td>
+              <td>
+                {% if user.role == 'admin' %}
+                <span class="badge bg-primary">Admin</span>
+                {% else %}
+                <span class="badge bg-success">Farmer</span>
+                {% endif %}
+              </td>
+              <td class="text-muted small">{{ user.created_at.strftime('%d %b %Y') }}</td>
+              <td>
+                <span class="badge bg-light text-dark">{{ user.field_analyses|length }}</span>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
