@@ -19,12 +19,33 @@ def health():
 @login_required
 def sensor_current():
     from services.sensor_sim import get_current_readings, get_ai_recommendations, get_alerts
+    from services.ai_model import predict as ml_predict
     readings = get_current_readings(current_user.id)
+    ml = ml_predict(
+        readings['nitrogen'], readings['phosphorus'], readings['potassium'],
+        readings['temperature'], readings['moisture'], readings['ph'],
+    )
     return jsonify({
-        'readings': readings,
+        'readings':        readings,
         'recommendations': get_ai_recommendations(readings),
-        'alerts': get_alerts(readings),
+        'alerts':          get_alerts(readings),
+        'ml_prediction':   ml,
     })
+
+
+@api_bp.route('/crop/predict', methods=['POST'])
+@login_required
+def crop_predict():
+    data = request.get_json() or {}
+    try:
+        result = __import__('services.ai_model', fromlist=['predict']).predict(
+            float(data['nitrogen']),   float(data['phosphorus']),
+            float(data['potassium']),  float(data['temperature']),
+            float(data['moisture']),   float(data['ph']),
+        )
+        return jsonify(result)
+    except (KeyError, ValueError, TypeError) as e:
+        return jsonify({'error': str(e)}), 400
 
 
 @api_bp.route('/sensor/history')

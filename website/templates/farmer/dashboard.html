@@ -150,6 +150,35 @@
 
   </div>
 
+  <!-- ML Crop Prediction -->
+  <div class="row g-3 mb-3">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm" style="border-left: 4px solid var(--green) !important;">
+        <div class="card-body py-3 px-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+          <div class="d-flex align-items-center gap-3">
+            <div style="width:48px;height:48px;background:var(--green-ghost);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">
+              🌱
+            </div>
+            <div>
+              <div class="text-muted small fw-semibold text-uppercase" style="letter-spacing:.06em;">ML Crop Recommendation</div>
+              <div class="fw-bold fs-5" id="ml-crop">Analysing…</div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center gap-4 flex-wrap">
+            <div class="text-center">
+              <div class="text-muted small">Confidence</div>
+              <div class="fw-bold text-success fs-5" id="ml-confidence">—</div>
+            </div>
+            <div id="ml-top3" class="d-flex gap-2 flex-wrap"></div>
+          </div>
+          <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill">
+            <i class="bi bi-robot me-1"></i>Random Forest · 92% accuracy
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Alerts + Quick Actions -->
   <div class="row g-3">
 

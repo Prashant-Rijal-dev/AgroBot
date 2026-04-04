@@ -110,6 +110,9 @@ async function refreshData() {
     const el = document.getElementById('lastUpdated');
     if (el) el.innerHTML = `<i class="bi bi-circle-fill text-success me-1" style="font-size:.5rem;"></i>Updated ${ts}`;
 
+    // Update ML prediction
+    if (data.ml_prediction) updateMLPrediction(data.ml_prediction);
+
     // Re-render chart with fresh data
     loadChart(currentMetric);
   } catch (e) {
@@ -125,8 +128,24 @@ function flash(id, value) {
   setTimeout(() => { el.style.transition = 'opacity .4s'; el.style.opacity = '1'; }, 50);
 }
 
+function updateMLPrediction(ml) {
+  const cropEl = document.getElementById('ml-crop');
+  const confEl = document.getElementById('ml-confidence');
+  const top3El = document.getElementById('ml-top3');
+  if (cropEl) cropEl.textContent = ml.crop || '—';
+  if (confEl) confEl.textContent = ml.confidence ? ml.confidence + '%' : '—';
+  if (top3El && ml.top3) {
+    top3El.innerHTML = ml.top3.map(t =>
+      `<span class="badge bg-light text-dark border small py-1 px-2">
+        ${t.crop} <span class="text-muted">${t.probability}%</span>
+      </span>`
+    ).join('');
+  }
+}
+
 /* ---- Auto-refresh every 30 seconds ---- */
 setInterval(refreshData, 30000);
 
 /* ---- Init ---- */
 loadChart('moisture');
+refreshData();
