@@ -8,6 +8,8 @@ auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.route('/')
 def index():
+    if current_user.is_authenticated:
+        return redirect(url_for('admin.panel') if current_user.role == 'admin' else url_for('farmer.dashboard'))
     return render_template('index.html')
 
 
