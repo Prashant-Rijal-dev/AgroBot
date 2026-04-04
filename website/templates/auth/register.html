@@ -1,103 +1,130 @@
 {% extends "base.html" %}
-{% block title %}Register — AgroBot{% endblock %}
+{% block title %}Create Account — AgroBot{% endblock %}
 
 {% block content %}
-<div class="auth-bg d-flex align-items-center justify-content-center py-5">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-sm-10 col-md-7 col-lg-6 col-xl-5">
-        <div class="card shadow border-0 auth-card">
-          <div class="card-body p-4 p-md-5">
-            <div class="text-center mb-4">
-              <div class="auth-logo mb-3">
-                <i class="bi bi-leaf-fill text-success" style="font-size:2.5rem;"></i>
-              </div>
-              <h3 class="fw-bold">Create Account</h3>
-              <p class="text-muted small">Join AgroBot and start farming smarter</p>
-            </div>
+<div class="auth-layout">
 
-            <form method="POST" action="{{ url_for('auth.register') }}">
-              <div class="mb-3">
-                <label class="form-label fw-semibold">Full Name</label>
-                <div class="input-group">
-                  <span class="input-group-text bg-light border-end-0">
-                    <i class="bi bi-person text-muted"></i>
-                  </span>
-                  <input type="text" name="name" class="form-control border-start-0 ps-0"
-                         placeholder="Prashant Rijal" required autofocus>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label fw-semibold">Email Address</label>
-                <div class="input-group">
-                  <span class="input-group-text bg-light border-end-0">
-                    <i class="bi bi-envelope text-muted"></i>
-                  </span>
-                  <input type="email" name="email" class="form-control border-start-0 ps-0"
-                         placeholder="you@example.com" required>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label fw-semibold">Password</label>
-                <div class="input-group">
-                  <span class="input-group-text bg-light border-end-0">
-                    <i class="bi bi-lock text-muted"></i>
-                  </span>
-                  <input type="password" name="password" class="form-control border-start-0 ps-0"
-                         placeholder="Create a password" required>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label fw-semibold">Confirm Password</label>
-                <div class="input-group">
-                  <span class="input-group-text bg-light border-end-0">
-                    <i class="bi bi-lock-fill text-muted"></i>
-                  </span>
-                  <input type="password" name="confirm_password" class="form-control border-start-0 ps-0"
-                         placeholder="Repeat your password" required>
-                </div>
-              </div>
-
-              <div class="mb-4">
-                <label class="form-label fw-semibold">Account Type</label>
-                <div class="d-flex gap-3">
-                  <div class="role-card flex-fill text-center p-3 rounded border" onclick="selectRole('farmer')" id="role-farmer">
-                    <i class="bi bi-person-arms-up text-success fs-4 d-block mb-1"></i>
-                    <small class="fw-semibold">Farmer</small>
-                  </div>
-                  <div class="role-card flex-fill text-center p-3 rounded border" onclick="selectRole('admin')" id="role-admin">
-                    <i class="bi bi-shield-check text-primary fs-4 d-block mb-1"></i>
-                    <small class="fw-semibold">Admin</small>
-                  </div>
-                </div>
-                <input type="hidden" name="role" id="roleInput" value="farmer">
-              </div>
-
-              <button type="submit" class="btn btn-success w-100 btn-lg fw-semibold">
-                <i class="bi bi-person-plus me-2"></i>Create Account
-              </button>
-            </form>
-
-            <hr class="my-4">
-            <p class="text-center text-muted small mb-0">
-              Already have an account?
-              <a href="{{ url_for('auth.login') }}" class="text-success fw-semibold">Sign in</a>
-            </p>
-          </div>
+  <!-- Left panel -->
+  <div class="auth-left d-none d-md-flex">
+    <div class="position-relative" style="z-index:1;">
+      <div class="d-flex align-items-center gap-3 mb-5">
+        <div style="width:44px;height:44px;background:rgba(255,255,255,.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:#fff;">
+          <i class="bi bi-leaf-fill"></i>
+        </div>
+        <span class="text-white fw-bold fs-5">AgroBot</span>
+      </div>
+      <h2 class="text-white fw-bold mb-2" style="font-size:1.8rem;line-height:1.3;">
+        Join thousands of<br>smarter farmers.
+      </h2>
+      <p class="mb-5" style="color:rgba(255,255,255,.65);font-size:.9rem;line-height:1.7;">
+        Get instant access to real-time soil monitoring,
+        AI crop recommendations and Nepal's field analysis map.
+      </p>
+      <div class="d-flex flex-column gap-1">
+        <div class="auth-feature-item">
+          <div class="auth-feature-icon"><i class="bi bi-check-circle"></i></div>
+          <div class="text-white small">Free to register and use</div>
+        </div>
+        <div class="auth-feature-item">
+          <div class="auth-feature-icon"><i class="bi bi-check-circle"></i></div>
+          <div class="text-white small">Live dashboard with Chart.js trends</div>
+        </div>
+        <div class="auth-feature-item">
+          <div class="auth-feature-icon"><i class="bi bi-check-circle"></i></div>
+          <div class="text-white small">Click-to-analyse Nepal field map</div>
+        </div>
+        <div class="auth-feature-item">
+          <div class="auth-feature-icon"><i class="bi bi-check-circle"></i></div>
+          <div class="text-white small">Connects to your ESP32 rover</div>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Right panel (form) -->
+  <div class="auth-right">
+    <div class="auth-form-box" style="max-width:440px;">
+      <div class="text-center mb-4">
+        <div class="auth-logo-circle">
+          <i class="bi bi-person-plus"></i>
+        </div>
+        <h3 class="fw-bold mb-1">Create Account</h3>
+        <p class="text-muted small">Join AgroBot and start farming smarter</p>
+      </div>
+
+      <form method="POST" action="{{ url_for('auth.register') }}">
+        <div class="mb-3">
+          <label class="form-label fw-semibold small">Full Name</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-person"></i></span>
+            <input type="text" name="name" class="form-control"
+                   placeholder="Your full name" required autofocus>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold small">Email Address</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+            <input type="email" name="email" class="form-control"
+                   placeholder="you@example.com" required>
+          </div>
+        </div>
+        <div class="row g-2 mb-3">
+          <div class="col-6">
+            <label class="form-label fw-semibold small">Password</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-lock"></i></span>
+              <input type="password" name="password" class="form-control"
+                     placeholder="Create password" required minlength="6">
+            </div>
+          </div>
+          <div class="col-6">
+            <label class="form-label fw-semibold small">Confirm</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+              <input type="password" name="confirm_password" class="form-control"
+                     placeholder="Repeat password" required>
+            </div>
+          </div>
+        </div>
+        <div class="mb-4">
+          <label class="form-label fw-semibold small">Account Type</label>
+          <div class="d-flex gap-2">
+            <div class="role-card flex-fill text-center p-3 rounded-3 border"
+                 onclick="selectRole('farmer')" id="role-farmer">
+              <i class="bi bi-person-arms-up text-success d-block mb-1" style="font-size:1.4rem;"></i>
+              <div class="fw-semibold small">Farmer</div>
+              <div class="text-muted" style="font-size:.7rem;">Field monitoring</div>
+            </div>
+            <div class="role-card flex-fill text-center p-3 rounded-3 border"
+                 onclick="selectRole('admin')" id="role-admin">
+              <i class="bi bi-shield-check text-primary d-block mb-1" style="font-size:1.4rem;"></i>
+              <div class="fw-semibold small">Admin</div>
+              <div class="text-muted" style="font-size:.7rem;">System management</div>
+            </div>
+          </div>
+          <input type="hidden" name="role" id="roleInput" value="farmer">
+        </div>
+        <button type="submit" class="btn btn-success w-100 py-2 fw-semibold">
+          Create Account <i class="bi bi-arrow-right ms-1"></i>
+        </button>
+      </form>
+
+      <div class="text-center mt-4">
+        <span class="text-muted small">Already have an account?</span>
+        <a href="{{ url_for('auth.login') }}" class="fw-semibold text-success ms-1 small">Sign in</a>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
 function selectRole(role) {
   document.getElementById('roleInput').value = role;
-  document.getElementById('role-farmer').classList.toggle('role-selected', role === 'farmer');
-  document.getElementById('role-admin').classList.toggle('role-selected', role === 'admin');
+  ['farmer','admin'].forEach(r => {
+    document.getElementById('role-' + r).classList.toggle('role-selected', r === role);
+  });
 }
 selectRole('farmer');
 </script>

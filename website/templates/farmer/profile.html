@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}My Profile — AgroBot{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="max-width:720px;">
+
+  <div class="mb-4">
+    <h4 class="fw-bold mb-0"><i class="bi bi-person-gear text-success me-2"></i>My Profile</h4>
+    <small class="text-muted">Manage your account details and password</small>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- Profile Info -->
+    <div class="col-md-6">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-white border-0 pb-0">
+          <h6 class="fw-bold mb-0"><i class="bi bi-person me-2 text-success"></i>Account Info</h6>
+        </div>
+        <div class="card-body">
+          <form method="POST">
+            <input type="hidden" name="action" value="update_profile">
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Full Name</label>
+              <input type="text" name="name" class="form-control"
+                     value="{{ current_user.name }}" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Email Address</label>
+              <input type="email" name="email" class="form-control"
+                     value="{{ current_user.email }}" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Role</label>
+              <input type="text" class="form-control bg-light" value="{{ current_user.role|title }}" disabled>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Member Since</label>
+              <input type="text" class="form-control bg-light"
+                     value="{{ current_user.created_at.strftime('%d %B %Y') }}" disabled>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Field Analyses Done</label>
+              <input type="text" class="form-control bg-light" value="{{ analysis_count }}" disabled>
+            </div>
+            <button type="submit" class="btn btn-success w-100">
+              <i class="bi bi-check-lg me-2"></i>Save Changes
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Change Password -->
+    <div class="col-md-6">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-white border-0 pb-0">
+          <h6 class="fw-bold mb-0"><i class="bi bi-shield-lock me-2 text-warning"></i>Change Password</h6>
+        </div>
+        <div class="card-body">
+          <form method="POST">
+            <input type="hidden" name="action" value="change_password">
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Current Password</label>
+              <input type="password" name="current_password" class="form-control"
+                     placeholder="Enter current password" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">New Password</label>
+              <input type="password" name="new_password" class="form-control"
+                     placeholder="At least 6 characters" required minlength="6">
+            </div>
+            <div class="mb-4">
+              <label class="form-label fw-semibold">Confirm New Password</label>
+              <input type="password" name="confirm_password" class="form-control"
+                     placeholder="Repeat new password" required>
+            </div>
+            <button type="submit" class="btn btn-warning w-100">
+              <i class="bi bi-key me-2"></i>Update Password
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

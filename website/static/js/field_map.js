@@ -1,6 +1,5 @@
 /* AgroBot — Field Analysis Map (Leaflet.js) */
 
-// Nepal bounds: SW(26.0, 80.0) NE(30.5, 88.5)
 const NEPAL_BOUNDS = [[26.0, 80.0], [30.5, 88.5]];
 const NEPAL_CENTER = [28.3, 84.1];
 
@@ -16,13 +15,8 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 18,
 }).addTo(map);
 
-// Nepal boundary rectangle (visual guide)
 L.rectangle(NEPAL_BOUNDS, {
-  color: '#2d6a4f',
-  weight: 2,
-  fill: false,
-  dashArray: '6,4',
-  opacity: 0.6,
+  color: '#2d6a4f', weight: 2, fill: false, dashArray: '6,4', opacity: 0.6,
 }).addTo(map);
 
 let marker = null;
@@ -41,19 +35,16 @@ const greenIcon = L.divIcon({
 
 map.on('click', function (e) {
   const { lat, lng } = e.latlng;
-
-  // Place / move marker
   if (marker) {
     marker.setLatLng([lat, lng]);
   } else {
     marker = L.marker([lat, lng], { icon: greenIcon }).addTo(map);
   }
-
   analyseField(lat, lng);
 });
 
 async function analyseField(lat, lon) {
-  showLoading(true);
+  showPanel('loading');
 
   try {
     const res = await fetch('/api/field/analyze', {
@@ -62,24 +53,39 @@ async function analyseField(lat, lon) {
       body: JSON.stringify({ lat, lon }),
     });
 
-    if (!res.ok) throw new Error(`Server error: ${res.status}`);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || `Server error ${res.status}`);
+    }
+
     const data = await res.json();
     showResults(data);
   } catch (err) {
-    showLoading(false);
-    alert('Analysis failed. Please try again.');
-    console.error(err);
+    showPanel('instruction');
+    console.error('Field analysis error:', err);
+    alert('Analysis failed: ' + err.message);
   }
 }
 
-function showLoading(state) {
-  document.getElementById('instructionPanel').style.display = 'none';
-  document.getElementById('loadingPanel').style.display    = state ? 'block' : 'none';
-  document.getElementById('resultsPanel').style.display    = state ? 'none'  : 'block';
+// Show exactly one of: instruction | loading | results
+function showPanel(which) {
+  const panels = {
+    instruction: document.getElementById('instructionPanel'),
+    loading:     document.getElementById('loadingPanel'),
+    results:     document.getElementById('resultsPanel'),
+  };
+  Object.entries(panels).forEach(([name, el]) => {
+    if (!el) return;
+    if (name === which) {
+      el.classList.remove('d-none');
+    } else {
+      el.classList.add('d-none');
+    }
+  });
 }
 
 function showResults(d) {
-  showLoading(false);
+  showPanel('results');
 
   setText('res-lat',  d.latitude  + '°N');
   setText('res-lon',  d.longitude + '°E');
@@ -92,26 +98,31 @@ function showResults(d) {
 
   // Maize bar
   const maizePct = d.maize_pct || 0;
-  const maizeEl  = document.getElementById('res-maize-bar');
-  if (maizeEl) { maizeEl.style.width = maizePct + '%'; maizeEl.className = 'progress-bar ' + suitabilityColor(d.maize_suitability); }
+  const maizeBar = document.getElementById('res-maize-bar');
+  if (maizeBar) {
+    maizeBar.style.width = maizePct + '%';
+    maizeBar.className = 'progress-bar ' + suitabilityColor(d.maize_suitability);
+  }
   setLabel('res-maize-label', d.maize_label || '—', d.maize_suitability);
   setText('res-maize-score', d.maize_suitability ? `Score: ${d.maize_suitability}/127` : '');
 
   // Tomato bar
   const tomatoPct = d.tomato_pct || 0;
-  const tomatoEl  = document.getElementById('res-tomato-bar');
-  if (tomatoEl) { tomatoEl.style.width = tomatoPct + '%'; tomatoEl.className = 'progress-bar ' + suitabilityColor(d.tomato_suitability); }
+  const tomatoBar = document.getElementById('res-tomato-bar');
+  if (tomatoBar) {
+    tomatoBar.style.width = tomatoPct + '%';
+    tomatoBar.className = 'progress-bar ' + suitabilityColor(d.tomato_suitability);
+  }
   setLabel('res-tomato-label', d.tomato_label || '—', d.tomato_suitability);
   setText('res-tomato-score', d.tomato_suitability ? `Score: ${d.tomato_suitability}/127` : '');
 
   setText('res-crop', d.recommended_crop || '—');
   setText('res-text', d.recommendation_text || '—');
 
-  // Update marker popup
   if (marker) {
     marker.bindPopup(`
-      <strong>${d.soil_type}</strong><br>
-      Recommended: <b>${d.recommended_crop}</b><br>
+      <strong>${d.soil_type || 'Unknown soil'}</strong><br>
+      Recommended: <b>${d.recommended_crop || '—'}</b><br>
       <small>Maize: ${d.maize_suitability ?? '—'} | Tomato: ${d.tomato_suitability ?? '—'}</small>
     `).openPopup();
   }
@@ -145,7 +156,7 @@ function badgeClass(score) {
   return 'bg-danger';
 }
 
-/* ---- History items — click to re-analyse ---- */
+// History items — click to re-analyse
 document.querySelectorAll('.history-item').forEach(item => {
   item.addEventListener('click', () => {
     const lat = parseFloat(item.dataset.lat);

@@ -1,147 +1,216 @@
 {% extends "base.html" %}
-{% block title %}Admin Panel — AgroBot{% endblock %}
+{% block title %}Admin Overview — AgroBot{% endblock %}
 
 {% block content %}
 <div class="container-fluid py-4 px-4">
 
-  <div class="mb-4">
-    <h4 class="fw-bold mb-0">
-      <i class="bi bi-shield-check text-primary me-2"></i>Admin Panel
-    </h4>
-    <small class="text-muted">System overview and user management</small>
+  <!-- Header -->
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h4 class="fw-bold mb-0">Admin Overview</h4>
+      <small class="text-muted">System summary and recent activity</small>
+    </div>
+    <a href="{{ url_for('admin.add_user') }}" class="btn btn-success btn-sm px-3">
+      <i class="bi bi-person-plus me-1"></i>Add User
+    </a>
   </div>
 
-  <!-- Stats -->
+  <!-- Stat Cards -->
   <div class="row g-3 mb-4">
-    <div class="col-sm-6 col-lg-3">
-      <div class="card border-0 shadow-sm text-center py-3">
-        <div class="card-body">
-          <div class="stat-icon bg-success-subtle text-success mx-auto mb-2">
-            <i class="bi bi-people-fill fs-4"></i>
+
+    <div class="col-6 col-lg-3">
+      <div class="stat-card card shadow-sm">
+        <div class="stat-card-inner">
+          <div class="stat-icon-box bg-success-subtle text-success">
+            <i class="bi bi-people-fill"></i>
           </div>
-          <div class="display-6 fw-bold text-success">{{ total_farmers }}</div>
-          <div class="text-muted small">Farmers</div>
+          <div>
+            <div class="stat-value text-success">{{ total_users }}</div>
+            <div class="stat-label">Total Users</div>
+          </div>
+        </div>
+        <div class="px-4 pb-3">
+          <a href="{{ url_for('admin.users') }}" class="text-success small fw-semibold text-decoration-none">
+            View all <i class="bi bi-arrow-right"></i>
+          </a>
         </div>
       </div>
     </div>
-    <div class="col-sm-6 col-lg-3">
-      <div class="card border-0 shadow-sm text-center py-3">
-        <div class="card-body">
-          <div class="stat-icon bg-primary-subtle text-primary mx-auto mb-2">
-            <i class="bi bi-shield-check fs-4"></i>
+
+    <div class="col-6 col-lg-3">
+      <div class="stat-card card shadow-sm">
+        <div class="stat-card-inner">
+          <div class="stat-icon-box bg-primary-subtle text-primary">
+            <i class="bi bi-person-fill"></i>
           </div>
-          <div class="display-6 fw-bold text-primary">{{ total_admins }}</div>
-          <div class="text-muted small">Admins</div>
+          <div>
+            <div class="stat-value text-primary">{{ total_farmers }}</div>
+            <div class="stat-label">Farmers</div>
+          </div>
+        </div>
+        <div class="px-4 pb-3">
+          <a href="{{ url_for('admin.users') }}?role=farmer" class="text-primary small fw-semibold text-decoration-none">
+            View farmers <i class="bi bi-arrow-right"></i>
+          </a>
         </div>
       </div>
     </div>
-    <div class="col-sm-6 col-lg-3">
-      <div class="card border-0 shadow-sm text-center py-3">
-        <div class="card-body">
-          <div class="stat-icon bg-warning-subtle text-warning mx-auto mb-2">
-            <i class="bi bi-map fs-4"></i>
+
+    <div class="col-6 col-lg-3">
+      <div class="stat-card card shadow-sm">
+        <div class="stat-card-inner">
+          <div class="stat-icon-box bg-warning-subtle text-warning">
+            <i class="bi bi-shield-fill"></i>
           </div>
-          <div class="display-6 fw-bold text-warning">{{ total_analyses }}</div>
-          <div class="text-muted small">Field Analyses</div>
+          <div>
+            <div class="stat-value text-warning">{{ total_admins }}</div>
+            <div class="stat-label">Admins</div>
+          </div>
+        </div>
+        <div class="px-4 pb-3">
+          <a href="{{ url_for('admin.users') }}?role=admin" class="text-warning small fw-semibold text-decoration-none">
+            View admins <i class="bi bi-arrow-right"></i>
+          </a>
         </div>
       </div>
     </div>
-    <div class="col-sm-6 col-lg-3">
-      <div class="card border-0 shadow-sm text-center py-3">
-        <div class="card-body">
-          <div class="stat-icon bg-info-subtle text-info mx-auto mb-2">
-            <i class="bi bi-cpu fs-4"></i>
+
+    <div class="col-6 col-lg-3">
+      <div class="stat-card card shadow-sm">
+        <div class="stat-card-inner">
+          <div class="stat-icon-box bg-info-subtle text-info">
+            <i class="bi bi-map-fill"></i>
           </div>
-          <div class="display-6 fw-bold text-info">
-            <span class="badge bg-success" style="font-size:0.7rem;">LIVE</span>
+          <div>
+            <div class="stat-value text-info">{{ total_analyses }}</div>
+            <div class="stat-label">Field Analyses</div>
           </div>
-          <div class="text-muted small">Sensor Status</div>
+        </div>
+        <div class="px-4 pb-3">
+          <a href="{{ url_for('admin.analyses') }}" class="text-info small fw-semibold text-decoration-none">
+            View all <i class="bi bi-arrow-right"></i>
+          </a>
         </div>
       </div>
     </div>
+
   </div>
 
-  <!-- Live Sensor Snapshot -->
-  <div class="card border-0 shadow-sm mb-4">
-    <div class="card-header bg-white border-0 pb-0">
-      <h6 class="fw-bold mb-0"><i class="bi bi-activity text-success me-2"></i>System Sensor Snapshot</h6>
-    </div>
-    <div class="card-body">
-      <div class="row g-3 text-center">
-        <div class="col-4 col-md-2">
-          <div class="text-muted small">Moisture</div>
-          <div class="fw-bold text-primary">{{ sample_readings.moisture }}%</div>
+  <!-- Tables row -->
+  <div class="row g-3 mb-3">
+
+    <!-- Recent Registrations -->
+    <div class="col-lg-6">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+          <h6 class="fw-bold mb-0"><i class="bi bi-person-plus text-success me-2"></i>Recent Registrations</h6>
+          <a href="{{ url_for('admin.users') }}" class="btn btn-outline-success btn-sm">View All</a>
         </div>
-        <div class="col-4 col-md-2">
-          <div class="text-muted small">Temp</div>
-          <div class="fw-bold text-danger">{{ sample_readings.temperature }}°C</div>
-        </div>
-        <div class="col-4 col-md-2">
-          <div class="text-muted small">pH</div>
-          <div class="fw-bold text-warning">{{ sample_readings.ph }}</div>
-        </div>
-        <div class="col-4 col-md-2">
-          <div class="text-muted small">Nitrogen</div>
-          <div class="fw-bold text-success">{{ sample_readings.nitrogen }}</div>
-        </div>
-        <div class="col-4 col-md-2">
-          <div class="text-muted small">Phosphorus</div>
-          <div class="fw-bold text-info">{{ sample_readings.phosphorus }}</div>
-        </div>
-        <div class="col-4 col-md-2">
-          <div class="text-muted small">Potassium</div>
-          <div class="fw-bold text-secondary">{{ sample_readings.potassium }}</div>
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>User</th>
+                <th>Role</th>
+                <th>Joined</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for u in recent_users %}
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="user-avatar-sm">{{ u.name[0].upper() }}</span>
+                    <div>
+                      <div class="fw-semibold small">{{ u.name }}</div>
+                      <div class="text-muted" style="font-size:.72rem;">{{ u.email }}</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="badge rounded-pill {% if u.role == 'admin' %}bg-warning-subtle text-warning{% else %}bg-success-subtle text-success{% endif %}">
+                    {{ u.role|title }}
+                  </span>
+                </td>
+                <td class="text-muted small">{{ u.created_at.strftime('%d %b %Y') }}</td>
+                <td class="text-end">
+                  <a href="{{ url_for('admin.edit_user', user_id=u.id) }}"
+                     class="btn btn-outline-secondary btn-sm py-0 px-2">
+                    <i class="bi bi-pencil"></i>
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
+
+    <!-- Recent Analyses -->
+    <div class="col-lg-6">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+          <h6 class="fw-bold mb-0"><i class="bi bi-map text-primary me-2"></i>Recent Field Analyses</h6>
+          <a href="{{ url_for('admin.analyses') }}" class="btn btn-outline-primary btn-sm">View All</a>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>User</th>
+                <th>Soil Type</th>
+                <th>Crop</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for fa in recent_analyses %}
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="user-avatar-sm" style="width:26px;height:26px;font-size:.7rem;">
+                      {{ fa.user.name[0].upper() if fa.user else '?' }}
+                    </span>
+                    <span class="fw-semibold small">{{ fa.user.name if fa.user else '—' }}</span>
+                  </div>
+                </td>
+                <td class="text-muted small">{{ fa.soil_type or '—' }}</td>
+                <td>
+                  <span class="badge bg-success-subtle text-success rounded-pill">
+                    {{ fa.recommended_crop or '—' }}
+                  </span>
+                </td>
+                <td class="text-muted small">{{ fa.timestamp.strftime('%d %b %Y') }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <!-- User Table -->
+  <!-- Quick Actions -->
   <div class="card border-0 shadow-sm">
-    <div class="card-header bg-white border-0 pb-0 d-flex align-items-center justify-content-between">
-      <h6 class="fw-bold mb-0"><i class="bi bi-people me-2 text-muted"></i>Registered Users</h6>
-      <span class="badge bg-secondary">{{ users|length }} total</span>
+    <div class="card-header bg-white border-0">
+      <h6 class="fw-bold mb-0"><i class="bi bi-lightning-fill text-warning me-2"></i>Quick Actions</h6>
     </div>
-    <div class="card-body p-0">
-      <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-          <thead class="table-light">
-            <tr>
-              <th class="ps-4">#</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Registered</th>
-              <th>Analyses</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for user in users %}
-            <tr>
-              <td class="ps-4 text-muted small">{{ user.id }}</td>
-              <td>
-                <div class="d-flex align-items-center gap-2">
-                  <div class="avatar-circle-sm">{{ user.name[0].upper() }}</div>
-                  <span class="fw-semibold">{{ user.name }}</span>
-                </div>
-              </td>
-              <td class="text-muted small">{{ user.email }}</td>
-              <td>
-                {% if user.role == 'admin' %}
-                <span class="badge bg-primary">Admin</span>
-                {% else %}
-                <span class="badge bg-success">Farmer</span>
-                {% endif %}
-              </td>
-              <td class="text-muted small">{{ user.created_at.strftime('%d %b %Y') }}</td>
-              <td>
-                <span class="badge bg-light text-dark">{{ user.field_analyses|length }}</span>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+    <div class="card-body d-flex gap-2 flex-wrap">
+      <a href="{{ url_for('admin.add_user') }}" class="btn btn-success btn-sm">
+        <i class="bi bi-person-plus me-1"></i>Add User
+      </a>
+      <a href="{{ url_for('admin.users') }}" class="btn btn-outline-success btn-sm">
+        <i class="bi bi-people me-1"></i>Manage Users
+      </a>
+      <a href="{{ url_for('admin.analyses') }}" class="btn btn-outline-primary btn-sm">
+        <i class="bi bi-map me-1"></i>All Analyses
+      </a>
+      <a href="{{ url_for('api.health') }}" target="_blank" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-activity me-1"></i>System Health
+      </a>
     </div>
   </div>
 

@@ -5,123 +5,168 @@
 
 <!-- Hero -->
 <section class="hero-section">
-  <div class="container text-center py-5">
-    <div class="hero-icon mb-4">
-      <i class="bi bi-leaf-fill"></i>
+  <div class="container text-center position-relative" style="z-index:1;">
+    <div class="hero-badge">
+      <i class="bi bi-stars"></i> Nepal's Smart Farming Platform
     </div>
-    <h1 class="display-4 fw-bold text-white mb-3">Smart Farming with AI</h1>
-    <p class="lead text-white-75 mb-4 mx-auto" style="max-width:600px;">
-      AgroBot helps Nepal's farmers make data-driven decisions with real-time soil monitoring,
-      crop suitability mapping, and AI-powered recommendations.
+    <h1 class="hero-title mb-3">
+      Grow Smarter with<br><span>AI-Powered Farming</span>
+    </h1>
+    <p class="text-white-75 mb-4 mx-auto fs-5 fw-light" style="max-width:580px; line-height:1.7;">
+      Real-time soil monitoring, crop suitability mapping, and AI recommendations
+      — built for Nepal's farmers.
     </p>
-    <div class="d-flex justify-content-center gap-3 flex-wrap">
-      <a href="{{ url_for('auth.register') }}" class="btn btn-light btn-lg fw-semibold text-success px-4">
+    <div class="d-flex justify-content-center gap-3 flex-wrap mb-4">
+      <a href="{{ url_for('auth.register') }}"
+         class="btn btn-light btn-lg fw-semibold text-success px-5 shadow">
         <i class="bi bi-person-plus me-2"></i>Get Started Free
       </a>
-      <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-lg px-4">
-        <i class="bi bi-box-arrow-in-right me-2"></i>Login
+      <a href="{{ url_for('auth.login') }}"
+         class="btn btn-outline-light btn-lg px-5">
+        <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
       </a>
     </div>
-    <p class="text-white-50 mt-3 small">Demo: admin@agrobot.com / admin123</p>
+    <p class="text-white-50 small">
+      <i class="bi bi-shield-check me-1"></i>
+      Demo: <strong class="text-white-75">admin@agrobot.com</strong> / <strong class="text-white-75">admin123</strong>
+    </p>
+  </div>
+</section>
+
+<!-- Stats Strip -->
+<section class="stats-strip py-4">
+  <div class="container">
+    <div class="row g-0 text-center">
+      <div class="col-6 col-md-3 stat-item py-2">
+        <div class="stat-number">6</div>
+        <div class="small text-muted fw-500">Sensor Metrics</div>
+      </div>
+      <div class="col-6 col-md-3 stat-item py-2">
+        <div class="stat-number">2</div>
+        <div class="small text-muted">Crop Types</div>
+      </div>
+      <div class="col-6 col-md-3 stat-item py-2">
+        <div class="stat-number">127</div>
+        <div class="small text-muted">Suitability Scale</div>
+      </div>
+      <div class="col-6 col-md-3 py-2">
+        <div class="stat-number">ESP32</div>
+        <div class="small text-muted">IoT Powered</div>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- Features -->
 <section class="py-5 bg-white">
-  <div class="container">
-    <h2 class="text-center fw-bold mb-2 text-success">What AgroBot Does</h2>
-    <p class="text-center text-muted mb-5">Everything a smart farmer needs, in one platform.</p>
+  <div class="container py-2">
+    <div class="text-center mb-5">
+      <span class="badge bg-success-subtle text-success fw-semibold px-3 py-2 mb-3 rounded-pill">Features</span>
+      <h2 class="fw-bold mb-2">Everything You Need</h2>
+      <p class="text-muted mx-auto" style="max-width:500px;">
+        One platform to monitor, analyse and optimise your farm.
+      </p>
+    </div>
     <div class="row g-4">
       <div class="col-md-4">
         <div class="feature-card card h-100 border-0 shadow-sm text-center p-4">
-          <div class="feature-icon bg-success-subtle text-success mx-auto mb-3">
-            <i class="bi bi-cpu fs-3"></i>
+          <div class="feature-icon bg-primary-subtle text-primary mx-auto mb-3">
+            <i class="bi bi-cpu"></i>
           </div>
-          <h5 class="fw-bold">Real-Time Sensor Monitoring</h5>
-          <p class="text-muted">Track soil moisture, temperature, pH, and NPK levels live from your field via ESP32 sensors.</p>
+          <h5 class="fw-bold mb-2">Real-Time Monitoring</h5>
+          <p class="text-muted small mb-0">Live soil moisture, temperature, pH, and NPK data from your ESP32 rover in the field.</p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="feature-card card h-100 border-0 shadow-sm text-center p-4">
-          <div class="feature-icon bg-primary-subtle text-primary mx-auto mb-3">
-            <i class="bi bi-map fs-3"></i>
+          <div class="feature-icon bg-success-subtle text-success mx-auto mb-3">
+            <i class="bi bi-map"></i>
           </div>
-          <h5 class="fw-bold">Field Analysis by Map</h5>
-          <p class="text-muted">Click anywhere on Nepal's map to instantly see soil type, elevation, and crop suitability scores.</p>
+          <h5 class="fw-bold mb-2">Field Analysis Map</h5>
+          <p class="text-muted small mb-0">Click anywhere on Nepal's map to see soil parent material, elevation, and crop suitability scores.</p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="feature-card card h-100 border-0 shadow-sm text-center p-4">
           <div class="feature-icon bg-warning-subtle text-warning mx-auto mb-3">
-            <i class="bi bi-robot fs-3"></i>
+            <i class="bi bi-robot"></i>
           </div>
-          <h5 class="fw-bold">AI Crop Recommendations</h5>
-          <p class="text-muted">Our AI engine analyses your field data and recommends the best crops and fertilizers to maximise yield.</p>
+          <h5 class="fw-bold mb-2">AI Recommendations</h5>
+          <p class="text-muted small mb-0">Intelligent crop and fertiliser recommendations tailored to your field's exact conditions.</p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="feature-card card h-100 border-0 shadow-sm text-center p-4">
           <div class="feature-icon bg-danger-subtle text-danger mx-auto mb-3">
-            <i class="bi bi-bell fs-3"></i>
+            <i class="bi bi-bell"></i>
           </div>
-          <h5 class="fw-bold">Smart Alerts</h5>
-          <p class="text-muted">Receive instant alerts when soil conditions go outside safe thresholds — before damage occurs.</p>
+          <h5 class="fw-bold mb-2">Smart Alerts</h5>
+          <p class="text-muted small mb-0">Instant alerts when moisture, temperature, or nutrients go outside safe thresholds.</p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="feature-card card h-100 border-0 shadow-sm text-center p-4">
           <div class="feature-icon bg-info-subtle text-info mx-auto mb-3">
-            <i class="bi bi-graph-up fs-3"></i>
+            <i class="bi bi-graph-up"></i>
           </div>
-          <h5 class="fw-bold">Historical Trends</h5>
-          <p class="text-muted">View 24-hour and weekly sensor trends to understand how your field conditions change over time.</p>
+          <h5 class="fw-bold mb-2">Historical Trends</h5>
+          <p class="text-muted small mb-0">24-hour charts and full analysis history to understand how conditions change over time.</p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="feature-card card h-100 border-0 shadow-sm text-center p-4">
-          <div class="feature-icon bg-success-subtle text-success mx-auto mb-3">
-            <i class="bi bi-shield-check fs-3"></i>
+          <div class="feature-icon bg-purple-subtle mx-auto mb-3" style="background:#f3e8ff;color:#7c3aed;">
+            <i class="bi bi-shield-check"></i>
           </div>
-          <h5 class="fw-bold">Role-Based Access</h5>
-          <p class="text-muted">Farmers see their dashboard and field data. Admins manage all users and monitor the whole system.</p>
+          <h5 class="fw-bold mb-2">Role-Based Access</h5>
+          <p class="text-muted small mb-0">Separate dashboards for farmers and admins. Full user management for system administrators.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- How it works -->
-<section class="py-5 bg-light">
-  <div class="container">
-    <h2 class="text-center fw-bold mb-2 text-success">How It Works</h2>
-    <p class="text-center text-muted mb-5">Three simple steps to smarter farming.</p>
-    <div class="row g-4 align-items-center">
-      <div class="col-md-4 text-center">
-        <div class="step-number mx-auto mb-3">1</div>
-        <h5 class="fw-bold">Register &amp; Set Up</h5>
-        <p class="text-muted">Create your farmer account and connect your ESP32 sensors to your field.</p>
+<!-- How it Works -->
+<section class="py-5" style="background:var(--bg);">
+  <div class="container py-2">
+    <div class="text-center mb-5">
+      <span class="badge bg-success-subtle text-success fw-semibold px-3 py-2 mb-3 rounded-pill">Process</span>
+      <h2 class="fw-bold mb-2">How It Works</h2>
+      <p class="text-muted">Three steps to smarter, data-driven farming.</p>
+    </div>
+    <div class="row g-4 text-center">
+      <div class="col-md-4 step-wrapper">
+        <div class="step-number mx-auto mb-4">1</div>
+        <h5 class="fw-bold">Register & Connect</h5>
+        <p class="text-muted small">Create your farmer account and connect your ESP32 sensor rover to the AgroBot network.</p>
       </div>
-      <div class="col-md-4 text-center">
-        <div class="step-number mx-auto mb-3">2</div>
-        <h5 class="fw-bold">Monitor &amp; Analyse</h5>
-        <p class="text-muted">View live sensor data on your dashboard and use the map to analyse your field's soil and crop potential.</p>
+      <div class="col-md-4 step-wrapper">
+        <div class="step-number mx-auto mb-4">2</div>
+        <h5 class="fw-bold">Monitor & Analyse</h5>
+        <p class="text-muted small">View live sensor data on your dashboard. Click the Nepal map to analyse any field location.</p>
       </div>
-      <div class="col-md-4 text-center">
-        <div class="step-number mx-auto mb-3">3</div>
-        <h5 class="fw-bold">Act on Recommendations</h5>
-        <p class="text-muted">Follow AgroBot's AI recommendations for irrigation, fertiliser, and crop selection to maximise yields.</p>
+      <div class="col-md-4 step-wrapper">
+        <div class="step-number mx-auto mb-4">3</div>
+        <h5 class="fw-bold">Act on Insights</h5>
+        <p class="text-muted small">Follow AI-powered recommendations for irrigation, fertiliser, and crop selection to maximise yield.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
-<section class="py-5 text-center" style="background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);">
-  <div class="container">
+<section class="py-5" style="background: linear-gradient(135deg, var(--green-darkest) 0%, var(--green) 100%);">
+  <div class="container text-center py-3">
+    <div class="hero-badge mx-auto mb-3" style="width:fit-content;">
+      <i class="bi bi-leaf-fill"></i> Free to use
+    </div>
     <h2 class="fw-bold text-white mb-3">Ready to grow smarter?</h2>
-    <p class="text-white-75 mb-4">Join AgroBot today and take the guesswork out of farming.</p>
-    <a href="{{ url_for('auth.register') }}" class="btn btn-light btn-lg fw-semibold text-success px-5">
-      <i class="bi bi-leaf me-2"></i>Start Now
+    <p class="text-white-75 mb-4 mx-auto" style="max-width:440px;">
+      Join AgroBot today and take the guesswork out of farming in Nepal.
+    </p>
+    <a href="{{ url_for('auth.register') }}"
+       class="btn btn-light btn-lg fw-semibold text-success px-5 shadow">
+      <i class="bi bi-arrow-right-circle me-2"></i>Start Now — It's Free
     </a>
   </div>
 </section>

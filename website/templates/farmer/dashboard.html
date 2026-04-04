@@ -2,7 +2,7 @@
 {% block title %}Dashboard — AgroBot{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -11,179 +11,200 @@
   <!-- Header -->
   <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
     <div>
-      <h4 class="fw-bold mb-0">
-        <i class="bi bi-speedometer2 text-success me-2"></i>Field Dashboard
-      </h4>
-      <small class="text-muted">
-        Welcome, {{ current_user.name }} &mdash;
-        <span id="liveTime"></span>
-      </small>
+      <h4 class="fw-bold mb-0">Farm Dashboard</h4>
+      <small class="text-muted">Welcome back, <strong>{{ current_user.name }}</strong> &mdash; live sensor readings</small>
     </div>
-    <button class="btn btn-outline-success btn-sm" onclick="refreshData()">
-      <i class="bi bi-arrow-clockwise me-1"></i>Refresh
-    </button>
+    <div class="d-flex gap-2 align-items-center">
+      <span id="lastUpdated" class="text-muted small">
+        <i class="bi bi-circle-fill text-success me-1" style="font-size:.5rem;"></i>Live
+      </span>
+      <a href="{{ url_for('farmer.field_analysis') }}" class="btn btn-success btn-sm px-3">
+        <i class="bi bi-map me-1"></i>Analyse Field
+      </a>
+    </div>
   </div>
 
   <!-- Sensor Cards -->
-  <div class="row g-3 mb-4" id="sensorCards">
-    <div class="col-6 col-lg-2">
-      <div class="sensor-card card border-0 shadow-sm h-100">
-        <div class="card-body text-center py-3">
-          <div class="sensor-icon bg-primary-subtle text-primary mx-auto mb-2">
-            <i class="bi bi-droplet-fill"></i>
-          </div>
-          <div class="sensor-value text-primary fw-bold" id="val-moisture">{{ readings.moisture }}%</div>
-          <div class="sensor-label text-muted">Moisture</div>
-          <div class="sensor-status mt-1" id="status-moisture"></div>
+  <div class="row g-3 mb-4">
+
+    <div class="col-6 col-sm-4 col-lg-2">
+      <div class="sensor-card sc-moisture card shadow">
+        <div class="sensor-card-header">
+          <div class="sensor-icon-bg"><i class="bi bi-droplet-fill"></i></div>
+        </div>
+        <div class="sensor-card-body">
+          <div class="sensor-value" id="val-moisture">{{ "%.1f"|format(readings.moisture) }}%</div>
+          <div class="sensor-label">Moisture</div>
+          <div class="sensor-trend" id="status-moisture">Soil</div>
         </div>
       </div>
     </div>
-    <div class="col-6 col-lg-2">
-      <div class="sensor-card card border-0 shadow-sm h-100">
-        <div class="card-body text-center py-3">
-          <div class="sensor-icon bg-danger-subtle text-danger mx-auto mb-2">
-            <i class="bi bi-thermometer-half"></i>
-          </div>
-          <div class="sensor-value text-danger fw-bold" id="val-temp">{{ readings.temperature }}°C</div>
-          <div class="sensor-label text-muted">Temperature</div>
-          <div class="sensor-status mt-1" id="status-temp"></div>
+
+    <div class="col-6 col-sm-4 col-lg-2">
+      <div class="sensor-card sc-temperature card shadow">
+        <div class="sensor-card-header">
+          <div class="sensor-icon-bg"><i class="bi bi-thermometer-half"></i></div>
+        </div>
+        <div class="sensor-card-body">
+          <div class="sensor-value" id="val-temperature">{{ "%.1f"|format(readings.temperature) }}°C</div>
+          <div class="sensor-label">Temperature</div>
+          <div class="sensor-trend" id="status-temperature">Ambient</div>
         </div>
       </div>
     </div>
-    <div class="col-6 col-lg-2">
-      <div class="sensor-card card border-0 shadow-sm h-100">
-        <div class="card-body text-center py-3">
-          <div class="sensor-icon bg-warning-subtle text-warning mx-auto mb-2">
-            <i class="bi bi-flask"></i>
-          </div>
-          <div class="sensor-value text-warning fw-bold" id="val-ph">{{ readings.ph }}</div>
-          <div class="sensor-label text-muted">pH Level</div>
-          <div class="sensor-status mt-1" id="status-ph"></div>
+
+    <div class="col-6 col-sm-4 col-lg-2">
+      <div class="sensor-card sc-ph card shadow">
+        <div class="sensor-card-header">
+          <div class="sensor-icon-bg"><i class="bi bi-flask"></i></div>
+        </div>
+        <div class="sensor-card-body">
+          <div class="sensor-value" id="val-ph">{{ "%.2f"|format(readings.ph) }}</div>
+          <div class="sensor-label">pH Level</div>
+          <div class="sensor-trend" id="status-ph">Acidity</div>
         </div>
       </div>
     </div>
-    <div class="col-6 col-lg-2">
-      <div class="sensor-card card border-0 shadow-sm h-100">
-        <div class="card-body text-center py-3">
-          <div class="sensor-icon bg-success-subtle text-success mx-auto mb-2">
-            <i class="bi bi-bar-chart-fill"></i>
-          </div>
-          <div class="sensor-value text-success fw-bold" id="val-n">{{ readings.nitrogen }}</div>
-          <div class="sensor-label text-muted">Nitrogen (mg/kg)</div>
+
+    <div class="col-6 col-sm-4 col-lg-2">
+      <div class="sensor-card sc-nitrogen card shadow">
+        <div class="sensor-card-header">
+          <div class="sensor-icon-bg"><i class="bi bi-bar-chart-fill"></i></div>
+        </div>
+        <div class="sensor-card-body">
+          <div class="sensor-value" id="val-nitrogen">{{ "%.0f"|format(readings.nitrogen) }}</div>
+          <div class="sensor-label">Nitrogen (N)</div>
+          <div class="sensor-trend">mg/kg</div>
         </div>
       </div>
     </div>
-    <div class="col-6 col-lg-2">
-      <div class="sensor-card card border-0 shadow-sm h-100">
-        <div class="card-body text-center py-3">
-          <div class="sensor-icon bg-info-subtle text-info mx-auto mb-2">
-            <i class="bi bi-activity"></i>
-          </div>
-          <div class="sensor-value text-info fw-bold" id="val-p">{{ readings.phosphorus }}</div>
-          <div class="sensor-label text-muted">Phosphorus (mg/kg)</div>
+
+    <div class="col-6 col-sm-4 col-lg-2">
+      <div class="sensor-card sc-phosphorus card shadow">
+        <div class="sensor-card-header">
+          <div class="sensor-icon-bg"><i class="bi bi-bar-chart-fill"></i></div>
+        </div>
+        <div class="sensor-card-body">
+          <div class="sensor-value" id="val-phosphorus">{{ "%.0f"|format(readings.phosphorus) }}</div>
+          <div class="sensor-label">Phosphorus (P)</div>
+          <div class="sensor-trend">mg/kg</div>
         </div>
       </div>
     </div>
-    <div class="col-6 col-lg-2">
-      <div class="sensor-card card border-0 shadow-sm h-100">
-        <div class="card-body text-center py-3">
-          <div class="sensor-icon bg-secondary-subtle text-secondary mx-auto mb-2">
-            <i class="bi bi-lightning-fill"></i>
-          </div>
-          <div class="sensor-value text-secondary fw-bold" id="val-k">{{ readings.potassium }}</div>
-          <div class="sensor-label text-muted">Potassium (mg/kg)</div>
+
+    <div class="col-6 col-sm-4 col-lg-2">
+      <div class="sensor-card sc-potassium card shadow">
+        <div class="sensor-card-header">
+          <div class="sensor-icon-bg"><i class="bi bi-bar-chart-fill"></i></div>
+        </div>
+        <div class="sensor-card-body">
+          <div class="sensor-value" id="val-potassium">{{ "%.0f"|format(readings.potassium) }}</div>
+          <div class="sensor-label">Potassium (K)</div>
+          <div class="sensor-trend">mg/kg</div>
         </div>
       </div>
     </div>
+
   </div>
 
-  <!-- Charts + Recommendations -->
-  <div class="row g-3 mb-4">
-    <!-- Chart -->
+  <!-- Chart + Recommendations -->
+  <div class="row g-3 mb-3">
+
     <div class="col-lg-8">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-header bg-white border-0 pb-0 d-flex justify-content-between align-items-center">
-          <h6 class="fw-bold mb-0"><i class="bi bi-graph-up text-success me-2"></i>24-Hour Trends</h6>
-          <div class="btn-group btn-group-sm" role="group">
-            <button type="button" class="btn btn-outline-secondary chart-toggle active" data-metric="moisture">Moisture</button>
-            <button type="button" class="btn btn-outline-secondary chart-toggle" data-metric="temperature">Temp</button>
-            <button type="button" class="btn btn-outline-secondary chart-toggle" data-metric="ph">pH</button>
-            <button type="button" class="btn btn-outline-secondary chart-toggle" data-metric="nitrogen">N</button>
+      <div class="card border-0 shadow-sm chart-card h-100">
+        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="fw-bold mb-0">24-Hour Sensor Trends</h6>
+            <small class="text-muted">Scroll through metrics</small>
+          </div>
+          <div class="btn-group btn-group-sm" id="metricBtns">
+            <button class="btn btn-success active" data-metric="moisture">Moisture</button>
+            <button class="btn btn-outline-success" data-metric="temperature">Temp</button>
+            <button class="btn btn-outline-success" data-metric="ph">pH</button>
+            <button class="btn btn-outline-success" data-metric="nitrogen">N</button>
           </div>
         </div>
-        <div class="card-body">
-          <canvas id="sensorChart" height="120"></canvas>
+        <div class="card-body pt-0">
+          <canvas id="trendChart" height="110"></canvas>
         </div>
       </div>
     </div>
 
-    <!-- Alerts -->
     <div class="col-lg-4">
       <div class="card border-0 shadow-sm h-100">
-        <div class="card-header bg-white border-0 pb-0">
-          <h6 class="fw-bold mb-0"><i class="bi bi-bell text-warning me-2"></i>Alerts</h6>
+        <div class="card-header bg-white border-0">
+          <h6 class="fw-bold mb-0"><i class="bi bi-robot text-success me-2"></i>AI Recommendations</h6>
         </div>
-        <div class="card-body p-0">
-          <ul class="list-group list-group-flush" id="alertList">
-            {% for alert in alerts %}
-            <li class="list-group-item d-flex align-items-start gap-2 py-3">
-              <span class="badge bg-{{ alert.level }} mt-1 flex-shrink-0">
-                {% if alert.level == 'danger' %}<i class="bi bi-exclamation-triangle-fill"></i>
-                {% elif alert.level == 'warning' %}<i class="bi bi-exclamation-circle-fill"></i>
-                {% else %}<i class="bi bi-check-circle-fill"></i>{% endif %}
-              </span>
-              <div>
-                <div class="small fw-semibold">{{ alert.message }}</div>
-                <div class="text-muted" style="font-size:0.7rem;">{{ alert.time }}</div>
-              </div>
-            </li>
-            {% endfor %}
-          </ul>
+        <div class="card-body p-0" style="overflow-y:auto;max-height:280px;">
+          {% for rec in recommendations %}
+          <div class="rec-item d-flex gap-3 align-items-start">
+            <div class="rec-icon bg-{{ rec.type }}-subtle text-{{ rec.type }} mt-1">
+              <i class="bi bi-{{ rec.icon }}"></i>
+            </div>
+            <span class="small" style="line-height:1.5;">{{ rec.message }}</span>
+          </div>
+          {% endfor %}
         </div>
       </div>
     </div>
+
   </div>
 
-  <!-- AI Recommendations -->
-  <div class="card border-0 shadow-sm mb-4">
-    <div class="card-header bg-white border-0 pb-0">
-      <h6 class="fw-bold mb-0">
-        <i class="bi bi-robot text-success me-2"></i>AI Recommendations
-      </h6>
-    </div>
-    <div class="card-body">
-      <div class="row g-3" id="recCards">
-        {% for rec in recommendations %}
-        <div class="col-md-6 col-lg-4">
-          <div class="rec-item d-flex align-items-start gap-3 p-3 rounded-3 bg-{{ rec.type }}-subtle border border-{{ rec.type }}-subtle">
-            <div class="rec-icon text-{{ rec.type }} flex-shrink-0">
-              <i class="bi bi-{{ rec.icon }} fs-5"></i>
+  <!-- Alerts + Quick Actions -->
+  <div class="row g-3">
+
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-0">
+          <h6 class="fw-bold mb-0"><i class="bi bi-bell text-warning me-2"></i>System Alerts</h6>
+        </div>
+        <div class="list-group list-group-flush" id="alertsList">
+          {% for alert in alerts %}
+          <div class="list-group-item border-0 d-flex align-items-center gap-3 py-3">
+            <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0
+              {% if alert.level == 'success' %}bg-success-subtle text-success
+              {% elif alert.level == 'danger' %}bg-danger-subtle text-danger
+              {% else %}bg-warning-subtle text-warning{% endif %}"
+              style="width:36px;height:36px;font-size:.9rem;">
+              <i class="bi {% if alert.level == 'success' %}bi-check-circle{% elif alert.level == 'danger' %}bi-exclamation-triangle{% else %}bi-exclamation-circle{% endif %}"></i>
             </div>
-            <div class="small">{{ rec.message }}</div>
+            <div class="flex-grow-1">
+              <div class="fw-semibold small">{{ alert.message }}</div>
+              <div class="text-muted" style="font-size:.72rem;">{{ alert.time }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-header bg-white border-0">
+          <h6 class="fw-bold mb-0"><i class="bi bi-lightning-fill text-warning me-2"></i>Quick Actions</h6>
+        </div>
+        <div class="card-body d-flex flex-column gap-2">
+          <a href="{{ url_for('farmer.field_analysis') }}" class="btn btn-success text-start">
+            <i class="bi bi-map me-2"></i>Analyse My Field
+          </a>
+          <a href="{{ url_for('farmer.history') }}" class="btn btn-outline-primary text-start">
+            <i class="bi bi-clock-history me-2"></i>View Analysis History
+          </a>
+          <a href="{{ url_for('farmer.profile') }}" class="btn btn-outline-secondary text-start">
+            <i class="bi bi-person-gear me-2"></i>Edit Profile
+          </a>
+          <div class="mt-auto pt-2 border-top text-center">
+            <small class="text-muted"><i class="bi bi-arrow-repeat me-1"></i>Auto-refreshes every 30s</small>
           </div>
         </div>
-        {% endfor %}
       </div>
     </div>
-  </div>
 
-  <!-- Quick link to field analysis -->
-  <div class="card border-0 shadow-sm border-start border-4 border-success">
-    <div class="card-body d-flex align-items-center justify-content-between flex-wrap gap-2">
-      <div>
-        <h6 class="fw-bold mb-1"><i class="bi bi-map text-success me-2"></i>Field Analysis</h6>
-        <p class="text-muted small mb-0">Click on Nepal's map to check soil type and crop suitability for any location.</p>
-      </div>
-      <a href="{{ url_for('farmer.field_analysis') }}" class="btn btn-success btn-sm px-4">
-        Open Map <i class="bi bi-arrow-right ms-1"></i>
-      </a>
-    </div>
   </div>
 
 </div>
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 {% endblock %}

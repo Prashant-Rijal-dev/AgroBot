@@ -12,7 +12,7 @@ class Config:
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    # Geospatial data paths
-    SOIL_SHAPEFILE = os.path.join(PROJECT_ROOT, 'parentsoil', 'soilparent.shp')
-    MAIZE_TIF = os.path.join(PROJECT_ROOT, 'Datasets', 'Maize.tif')
-    TOMATO_TIF = os.path.join(PROJECT_ROOT, 'Datasets', 'Tomato.tif')
+    # Geospatial data paths — overridable via environment (used in Docker)
+    SOIL_SHAPEFILE = os.environ.get('SOIL_SHAPEFILE') or os.path.join(PROJECT_ROOT, 'parentsoil', 'soilparent.shp')
+    MAIZE_TIF      = os.environ.get('MAIZE_TIF')      or os.path.join(PROJECT_ROOT, 'Datasets', 'Maize.tif')
+    TOMATO_TIF     = os.environ.get('TOMATO_TIF')     or os.path.join(PROJECT_ROOT, 'Datasets', 'Tomato.tif')

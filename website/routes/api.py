@@ -4,6 +4,17 @@ from flask_login import login_required, current_user
 api_bp = Blueprint('api', __name__, url_prefix='/api')
 
 
+@api_bp.route('/health')
+def health():
+    from app import db
+    try:
+        db.session.execute(db.text('SELECT 1'))
+        db_status = 'ok'
+    except Exception:
+        db_status = 'error'
+    return jsonify({'status': 'ok', 'db': db_status})
+
+
 @api_bp.route('/sensor/current')
 @login_required
 def sensor_current():
@@ -25,6 +36,7 @@ def sensor_history():
 
 
 @api_bp.route('/field/analyze', methods=['POST'])
+@login_required
 def field_analyze():
     data = request.get_json()
     if not data:
@@ -39,22 +51,22 @@ def field_analyze():
     from services.field_analysis import query_field
     result = query_field(lat, lon)
 
-    if current_user.is_authenticated:
-        from app import db
-        from models import FieldAnalysis
-        fa = FieldAnalysis(
-            user_id=current_user.id,
-            latitude=lat,
-            longitude=lon,
-            soil_type=result.get('soil_type'),
-            elevation_min=result.get('elevation_min'),
-            elevation_max=result.get('elevation_max'),
-            maize_suitability=result.get('maize_suitability'),
-            tomato_suitability=result.get('tomato_suitability'),
-            recommended_crop=result.get('recommended_crop'),
-            recommendation_text=result.get('recommendation_text'),
-        )
-        db.session.add(fa)
-        db.session.commit()
+    # Persist to DB
+    from app import db
+    from models import FieldAnalysis
+    fa = FieldAnalysis(
+        user_id=current_user.id,
+        latitude=lat,
+        longitude=lon,
+        soil_type=result.get('soil_type'),
+        elevation_min=result.get('elevation_min'),
+        elevation_max=result.get('elevation_max'),
+        maize_suitability=result.get('maize_suitability'),
+        tomato_suitability=result.get('tomato_suitability'),
+        recommended_crop=result.get('recommended_crop'),
+        recommendation_text=result.get('recommendation_text'),
+    )
+    db.session.add(fa)
+    db.session.commit()
 
     return jsonify(result)

@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
@@ -27,6 +27,15 @@ def create_app():
     app.register_blueprint(farmer_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(api_bp)
+
+    # Error handlers
+    @app.errorhandler(404)
+    def not_found(e):
+        return render_template('errors/404.html'), 404
+
+    @app.errorhandler(500)
+    def server_error(e):
+        return render_template('errors/500.html'), 500
 
     with app.app_context():
         db.create_all()

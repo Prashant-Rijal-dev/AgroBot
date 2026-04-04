@@ -1,29 +1,22 @@
 /* AgroBot — Dashboard JS */
 
 const METRIC_CONFIG = {
-  moisture:    { label: 'Moisture (%)',     color: '#0d6efd', low: 40, high: 80 },
-  temperature: { label: 'Temperature (°C)', color: '#dc3545', low: 10, high: 35 },
-  ph:          { label: 'pH',               color: '#ffc107', low: 5.5, high: 7.5 },
-  nitrogen:    { label: 'Nitrogen (mg/kg)', color: '#198754', low: 30, high: null },
+  moisture:    { label: 'Moisture (%)',     color: '#0ea5e9', low: 40,  high: 80   },
+  temperature: { label: 'Temperature (°C)', color: '#ef4444', low: 10,  high: 35   },
+  ph:          { label: 'pH',               color: '#8b5cf6', low: 5.5, high: 7.5  },
+  nitrogen:    { label: 'Nitrogen (mg/kg)', color: '#10b981', low: 30,  high: null },
 };
 
 let chart = null;
 let currentMetric = 'moisture';
 let historyData = [];
 
-/* ---- Clock ---- */
-function updateClock() {
-  const el = document.getElementById('liveTime');
-  if (el) el.textContent = new Date().toLocaleTimeString();
-}
-setInterval(updateClock, 1000);
-updateClock();
-
-/* ---- Fetch & render chart ---- */
+/* ---- Fetch history & render chart ---- */
 async function loadChart(metric) {
   currentMetric = metric;
   try {
     const res = await fetch('/api/sensor/history?hours=24');
+    if (!res.ok) return;
     historyData = await res.json();
     renderChart(metric);
   } catch (e) {
@@ -32,12 +25,12 @@ async function loadChart(metric) {
 }
 
 function renderChart(metric) {
-  const cfg = METRIC_CONFIG[metric];
+  const cfg  = METRIC_CONFIG[metric];
+  const ctx  = document.getElementById('trendChart');
+  if (!ctx || !historyData.length) return;
+
   const labels = historyData.map(r => r.timestamp);
   const values = historyData.map(r => r[metric]);
-
-  const ctx = document.getElementById('sensorChart');
-  if (!ctx) return;
 
   if (chart) chart.destroy();
 
@@ -49,9 +42,9 @@ function renderChart(metric) {
         label: cfg.label,
         data: values,
         borderColor: cfg.color,
-        backgroundColor: cfg.color + '18',
-        borderWidth: 2,
-        pointRadius: 2,
+        backgroundColor: cfg.color + '22',
+        borderWidth: 2.5,
+        pointRadius: 0,
         pointHoverRadius: 5,
         fill: true,
         tension: 0.4,
@@ -59,89 +52,77 @@ function renderChart(metric) {
     },
     options: {
       responsive: true,
+      interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: { display: false },
         tooltip: {
+          backgroundColor: '#1a1a2e',
+          titleFont: { size: 12 },
+          bodyFont: { size: 12 },
           callbacks: {
-            label: ctx => ` ${ctx.parsed.y} ${cfg.label.match(/\(([^)]+)\)/)?.[1] || ''}`,
+            label: c => ` ${c.parsed.y.toFixed(2)} ${cfg.label.match(/\(([^)]+)\)/)?.[1] || ''}`,
           },
         },
       },
       scales: {
-        x: { grid: { display: false }, ticks: { maxTicksLimit: 8, font: { size: 11 } } },
-        y: { grid: { color: '#f0f0f0' }, ticks: { font: { size: 11 } } },
+        x: {
+          grid: { display: false },
+          ticks: { maxTicksLimit: 8, font: { size: 11 }, color: '#9ca3af' },
+        },
+        y: {
+          grid: { color: '#f3f4f6', drawBorder: false },
+          ticks: { font: { size: 11 }, color: '#9ca3af' },
+        },
       },
     },
   });
 }
 
-/* ---- Toggle buttons ---- */
-document.querySelectorAll('.chart-toggle').forEach(btn => {
+/* ---- Metric toggle buttons ---- */
+document.querySelectorAll('#metricBtns button').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.chart-toggle').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderChart(btn.dataset.metric);
+    document.querySelectorAll('#metricBtns button').forEach(b => {
+      b.classList.remove('btn-success', 'active');
+      b.classList.add('btn-outline-success');
+    });
+    btn.classList.remove('btn-outline-success');
+    btn.classList.add('btn-success', 'active');
+    loadChart(btn.dataset.metric);
   });
 });
 
-/* ---- Refresh sensor data ---- */
+/* ---- Refresh sensor cards ---- */
 async function refreshData() {
   try {
     const res = await fetch('/api/sensor/current');
+    if (!res.ok) return;
     const data = await res.json();
     const r = data.readings;
 
-    setText('val-moisture',  r.moisture  + '%');
-    setText('val-temp',      r.temperature + '°C');
-    setText('val-ph',        r.ph);
-    setText('val-n',         r.nitrogen);
-    setText('val-p',         r.phosphorus);
-    setText('val-k',         r.potassium);
+    flash('val-moisture',    r.moisture.toFixed(1) + '%');
+    flash('val-temperature', r.temperature.toFixed(1) + '°C');
+    flash('val-ph',          r.ph.toFixed(2));
+    flash('val-nitrogen',    Math.round(r.nitrogen));
+    flash('val-phosphorus',  Math.round(r.phosphorus));
+    flash('val-potassium',   Math.round(r.potassium));
 
-    updateAlerts(data.alerts);
-    updateRecs(data.recommendations);
-    renderChart(currentMetric);
+    const ts = new Date().toLocaleTimeString();
+    const el = document.getElementById('lastUpdated');
+    if (el) el.innerHTML = `<i class="bi bi-circle-fill text-success me-1" style="font-size:.5rem;"></i>Updated ${ts}`;
+
+    // Re-render chart with fresh data
+    loadChart(currentMetric);
   } catch (e) {
     console.error('Refresh failed:', e);
   }
 }
 
-function setText(id, value) {
+function flash(id, value) {
   const el = document.getElementById(id);
-  if (el) {
-    el.classList.add('value-updated');
-    el.textContent = value;
-    setTimeout(() => el.classList.remove('value-updated'), 600);
-  }
-}
-
-function updateAlerts(alerts) {
-  const list = document.getElementById('alertList');
-  if (!list || !alerts) return;
-  list.innerHTML = alerts.map(a => `
-    <li class="list-group-item d-flex align-items-start gap-2 py-3">
-      <span class="badge bg-${a.level} mt-1 flex-shrink-0">
-        <i class="bi bi-${a.level === 'danger' ? 'exclamation-triangle-fill' : a.level === 'warning' ? 'exclamation-circle-fill' : 'check-circle-fill'}"></i>
-      </span>
-      <div>
-        <div class="small fw-semibold">${a.message}</div>
-        <div class="text-muted" style="font-size:0.7rem;">${a.time}</div>
-      </div>
-    </li>`).join('');
-}
-
-function updateRecs(recs) {
-  const el = document.getElementById('recCards');
-  if (!el || !recs) return;
-  el.innerHTML = recs.map(r => `
-    <div class="col-md-6 col-lg-4">
-      <div class="rec-item d-flex align-items-start gap-3 p-3 rounded-3 bg-${r.type}-subtle border border-${r.type}-subtle">
-        <div class="rec-icon text-${r.type} flex-shrink-0">
-          <i class="bi bi-${r.icon} fs-5"></i>
-        </div>
-        <div class="small">${r.message}</div>
-      </div>
-    </div>`).join('');
+  if (!el) return;
+  el.textContent = value;
+  el.style.opacity = '0.4';
+  setTimeout(() => { el.style.transition = 'opacity .4s'; el.style.opacity = '1'; }, 50);
 }
 
 /* ---- Auto-refresh every 30 seconds ---- */
