@@ -105,6 +105,32 @@
       </div>
     </div>
 
+    <div class="col-6 col-sm-4 col-lg-2">
+      <div class="sensor-card sc-moisture card shadow">
+        <div class="sensor-card-header">
+          <div class="sensor-icon-bg"><i class="bi bi-water"></i></div>
+        </div>
+        <div class="sensor-card-body">
+          <div class="sensor-value" id="val-humidity">{{ "%.1f"|format(readings.get('humidity', readings.get('moisture', 0))) }}%</div>
+          <div class="sensor-label">Humidity</div>
+          <div class="sensor-trend">Soil (RS485)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-sm-4 col-lg-2">
+      <div class="sensor-card sc-ph card shadow">
+        <div class="sensor-card-header">
+          <div class="sensor-icon-bg"><i class="bi bi-plug-fill"></i></div>
+        </div>
+        <div class="sensor-card-body">
+          <div class="sensor-value" id="val-ec">{{ "%.0f"|format(readings.get('ec', 0)) }}</div>
+          <div class="sensor-label">EC</div>
+          <div class="sensor-trend">µS/cm</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- Chart + Recommendations -->
@@ -118,10 +144,11 @@
             <small class="text-muted">Scroll through metrics</small>
           </div>
           <div class="btn-group btn-group-sm" id="metricBtns">
-            <button class="btn btn-success active" data-metric="moisture">Moisture</button>
+            <button class="btn btn-success active" data-metric="humidity">Humidity</button>
             <button class="btn btn-outline-success" data-metric="temperature">Temp</button>
-            <button class="btn btn-outline-success" data-metric="ph">pH</button>
+            <button class="btn btn-outline-success" data-metric="ec">EC</button>
             <button class="btn btn-outline-success" data-metric="nitrogen">N</button>
+            <button class="btn btn-outline-success" data-metric="ph">pH</button>
           </div>
         </div>
         <div class="card-body pt-0">
@@ -174,6 +201,75 @@
           <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill">
             <i class="bi bi-robot me-1"></i>Random Forest · 92% accuracy
           </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rover Vision — Path Detection -->
+  <div class="row g-3 mb-3">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm" style="border-left:4px solid #f59e0b !important;">
+        <div class="card-header bg-white border-0 d-flex align-items-center justify-content-between">
+          <h6 class="fw-bold mb-0">
+            <i class="bi bi-image text-warning me-2"></i>Rover Path Detection
+          </h6>
+          <span class="badge bg-warning-subtle text-warning px-3 py-2 rounded-pill">
+            <i class="bi bi-cpu me-1"></i>U-Net CNN
+          </span>
+        </div>
+        <div class="card-body">
+          <div class="row g-3 align-items-center">
+
+            <!-- Upload -->
+            <div class="col-lg-3">
+              <label class="form-label small fw-semibold text-muted">Upload Field Photo</label>
+              <input type="file" class="form-control form-control-sm" id="roverImageInput"
+                     accept="image/*" onchange="previewRoverImage(this)">
+              <div class="text-muted" style="font-size:.7rem;" class="mt-1">
+                Take a photo of your field and upload it — the AI will detect the path for the rover to follow.
+              </div>
+              <button class="btn btn-warning btn-sm w-100 mt-2" onclick="detectPath()">
+                <i class="bi bi-play-fill me-1"></i>Detect Path
+              </button>
+              <div id="roverError" class="text-danger small mt-1 d-none"></div>
+            </div>
+
+            <!-- Image preview -->
+            <div class="col-lg-3 text-center">
+              <div class="small text-muted fw-semibold mb-1">Field Photo</div>
+              <img id="roverPreview" src="" alt="rover frame"
+                   class="img-fluid rounded d-none"
+                   style="max-height:140px;border:1px solid #e5e7eb;">
+              <div id="roverPlaceholder" class="rounded d-flex align-items-center justify-content-center"
+                   style="height:140px;background:#f9fafb;border:2px dashed #d1d5db;">
+                <span class="text-muted small">No photo selected</span>
+              </div>
+            </div>
+
+            <!-- Path mask -->
+            <div class="col-lg-3 text-center">
+              <div class="small text-muted fw-semibold mb-1">Path Mask</div>
+              <img id="pathMask" src="" alt="path mask"
+                   class="img-fluid rounded d-none"
+                   style="max-height:140px;border:1px solid #e5e7eb;filter:hue-rotate(90deg);">
+              <div id="maskPlaceholder" class="rounded d-flex align-items-center justify-content-center"
+                   style="height:140px;background:#f9fafb;border:2px dashed #d1d5db;">
+                <span class="text-muted small">Mask output</span>
+              </div>
+            </div>
+
+            <!-- Direction result -->
+            <div class="col-lg-3 text-center">
+              <div class="small text-muted fw-semibold mb-2">Rover Command</div>
+              <div id="directionIcon" style="font-size:2.5rem;">⏸</div>
+              <div id="directionLabel" class="fw-bold fs-4 mt-1">—</div>
+              <div class="text-muted small mt-1">
+                Path coverage: <span id="pathCoverage">—</span>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
     </div>

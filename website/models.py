@@ -30,15 +30,46 @@ class User(UserMixin, db.Model):
 
 
 class SensorReading(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-    moisture = db.Column(db.Float)
+    id          = db.Column(db.Integer, primary_key=True)
+    user_id     = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    timestamp   = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    # Core soil sensors (RS485)
+    nitrogen    = db.Column(db.Float)
+    phosphorus  = db.Column(db.Float)
+    potassium   = db.Column(db.Float)
     temperature = db.Column(db.Float)
-    ph = db.Column(db.Float)
-    nitrogen = db.Column(db.Float)
-    phosphorus = db.Column(db.Float)
-    potassium = db.Column(db.Float)
+    humidity    = db.Column(db.Float)   # soil humidity from RS485 sensor
+    ec          = db.Column(db.Float)   # electrical conductivity (µS/cm)
+    # Legacy / calculated
+    moisture    = db.Column(db.Float)   # alias for humidity when simulated
+    ph          = db.Column(db.Float)
+    # Rover GPS position at time of reading
+    latitude    = db.Column(db.Float)
+    longitude   = db.Column(db.Float)
+
+    def to_dict(self):
+        return {
+            'timestamp':   self.timestamp.strftime('%H:%M'),
+            'nitrogen':    self.nitrogen,
+            'phosphorus':  self.phosphorus,
+            'potassium':   self.potassium,
+            'temperature': self.temperature,
+            'humidity':    self.humidity,
+            'moisture':    self.humidity or self.moisture,
+            'ec':          self.ec,
+            'ph':          self.ph,
+            'latitude':    self.latitude,
+            'longitude':   self.longitude,
+        }
+
+
+class RoverCommand(db.Model):
+    """Stores the latest path-detection direction for each user's rover to poll."""
+    id        = db.Column(db.Integer, primary_key=True)
+    user_id   = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    direction = db.Column(db.String(10), default='STOP')
+    coverage  = db.Column(db.Float,    default=0)
+    set_at    = db.Column(db.DateTime, default=datetime.utcnow)
 
 
 class FieldAnalysis(db.Model):

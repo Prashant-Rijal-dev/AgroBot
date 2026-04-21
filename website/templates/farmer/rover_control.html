@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+{% block title %}Rover Control — AgroBot{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  #roverMap { height: 420px; border-radius: 12px; }
+  .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .status-dot.online  { background: #10b981; box-shadow: 0 0 6px #10b981; animation: pulse 1.5s infinite; }
+  .status-dot.offline { background: #9ca3af; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .dir-badge { font-size: 2rem; transition: all .3s; }
+  .reading-row td { font-size: .82rem; }
+  .metric-pill { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 6px 12px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4 px-4">
+
+  <!-- Header -->
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h4 class="fw-bold mb-0"><i class="bi bi-robot text-success me-2"></i>Rover Control</h4>
+      <small class="text-muted">Live sensor feed &amp; autonomous navigation monitor</small>
+    </div>
+    <div class="d-flex gap-2 align-items-center">
+      <span class="status-dot offline" id="statusDot"></span>
+      <span id="statusLabel" class="small text-muted">Connecting…</span>
+      <span class="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill" id="lastSeen">—</span>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-3">
+
+    <!-- Map -->
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+          <h6 class="fw-bold mb-0"><i class="bi bi-geo-alt text-success me-2"></i>Rover GPS Trail</h6>
+          <button class="btn btn-outline-danger btn-sm" onclick="clearTrail()">
+            <i class="bi bi-trash me-1"></i>Clear Trail
+          </button>
+        </div>
+        <div class="card-body p-2">
+          <div id="roverMap"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Direction + live metrics -->
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm mb-3">
+        <div class="card-header bg-white border-0">
+          <h6 class="fw-bold mb-0"><i class="bi bi-signpost-2 text-warning me-2"></i>Current Direction</h6>
+        </div>
+        <div class="card-body text-center py-4">
+          <div class="dir-badge" id="dirIcon">⏸</div>
+          <div class="fw-bold fs-3 mt-1" id="dirLabel">WAITING</div>
+          <div class="text-muted small mt-1">Path coverage: <span id="dirCoverage">—</span></div>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-0">
+          <h6 class="fw-bold mb-0"><i class="bi bi-activity text-success me-2"></i>Latest Readings</h6>
+        </div>
+        <div class="card-body">
+          <div class="d-flex flex-wrap gap-2">
+            <div class="metric-pill text-center flex-fill">
+              <div class="text-muted" style="font-size:.65rem">TEMP</div>
+              <div class="fw-bold small" id="lv-temp">—</div>
+            </div>
+            <div class="metric-pill text-center flex-fill">
+              <div class="text-muted" style="font-size:.65rem">HUMIDITY</div>
+              <div class="fw-bold small" id="lv-hum">—</div>
+            </div>
+            <div class="metric-pill text-center flex-fill">
+              <div class="text-muted" style="font-size:.65rem">EC</div>
+              <div class="fw-bold small" id="lv-ec">—</div>
+            </div>
+            <div class="metric-pill text-center flex-fill">
+              <div class="text-muted" style="font-size:.65rem">N</div>
+              <div class="fw-bold small" id="lv-n">—</div>
+            </div>
+            <div class="metric-pill text-center flex-fill">
+              <div class="text-muted" style="font-size:.65rem">P</div>
+              <div class="fw-bold small" id="lv-p">—</div>
+            </div>
+            <div class="metric-pill text-center flex-fill">
+              <div class="text-muted" style="font-size:.65rem">K</div>
+              <div class="fw-bold small" id="lv-k">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reading history table -->
+  <div class="row g-3">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-0">
+          <h6 class="fw-bold mb-0"><i class="bi bi-table text-success me-2"></i>Sensor Reading Log</h6>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-sm table-hover mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Time</th>
+                <th>Temp (°C)</th>
+                <th>Humidity (%)</th>
+                <th>EC (µS/cm)</th>
+                <th>N (mg/kg)</th>
+                <th>P (mg/kg)</th>
+                <th>K (mg/kg)</th>
+                <th>pH</th>
+                <th>GPS</th>
+              </tr>
+            </thead>
+            <tbody id="readingLog">
+              <tr><td colspan="9" class="text-center text-muted py-3">Waiting for rover data…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const DIR_ICONS = {
+  LEFT: '⬅', RIGHT: '➡', STRAIGHT: '⬆', STOP: '🛑', WAITING: '⏸'
+};
+const DIR_COLORS = {
+  LEFT: '#f59e0b', RIGHT: '#f59e0b', STRAIGHT: '#10b981', STOP: '#ef4444', WAITING: '#9ca3af'
+};
+
+// ---- Map setup ----
+const map = L.map('roverMap').setView([27.7, 85.3], 13);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap'
+}).addTo(map);
+
+let trailLine   = L.polyline([], { color: '#10b981', weight: 3 }).addTo(map);
+let roverMarker = null;
+let trailPoints = [];
+
+function updateMap(trail) {
+  if (!trail || trail.length === 0) return;
+  const pts = trail.map(p => [p.lat, p.lng]);
+  trailPoints = pts;
+  trailLine.setLatLngs(pts);
+
+  const last = pts[pts.length - 1];
+  if (!roverMarker) {
+    const icon = L.divIcon({
+      html: '<div style="font-size:1.4rem">🤖</div>',
+      className: '', iconAnchor: [12, 12]
+    });
+    roverMarker = L.marker(last, { icon }).addTo(map);
+  } else {
+    roverMarker.setLatLng(last);
+  }
+  map.panTo(last);
+}
+
+function clearTrail() {
+  trailPoints = [];
+  trailLine.setLatLngs([]);
+  if (roverMarker) { map.removeLayer(roverMarker); roverMarker = null; }
+}
+
+// ---- Status polling ----
+async function pollStatus() {
+  try {
+    const res  = await fetch('/api/rover/status?limit=20');
+    const data = await res.json();
+
+    // Online indicator
+    const dot = document.getElementById('statusDot');
+    const lbl = document.getElementById('statusLabel');
+    dot.className = 'status-dot ' + (data.online ? 'online' : 'offline');
+    lbl.textContent = data.online ? 'Online' : 'Offline';
+
+    if (data.last_seen) {
+      const ago = Math.round((Date.now() - new Date(data.last_seen)) / 1000);
+      document.getElementById('lastSeen').textContent =
+        ago < 60 ? `${ago}s ago` : `${Math.round(ago/60)}m ago`;
+    }
+
+    if (data.latest) {
+      const r = data.latest;
+      document.getElementById('lv-temp').textContent = r.temperature != null ? r.temperature + '°C' : '—';
+      document.getElementById('lv-hum').textContent  = r.humidity    != null ? r.humidity    + '%'  : '—';
+      document.getElementById('lv-ec').textContent   = r.ec          != null ? r.ec          + ' µS/cm' : '—';
+      document.getElementById('lv-n').textContent    = r.nitrogen    != null ? r.nitrogen    + '' : '—';
+      document.getElementById('lv-p').textContent    = r.phosphorus  != null ? r.phosphorus  + '' : '—';
+      document.getElementById('lv-k').textContent    = r.potassium   != null ? r.potassium   + '' : '—';
+    }
+
+    updateMap(data.trail);
+    buildTable(data.readings);
+  } catch (e) {
+    console.error('Status poll failed:', e);
+  }
+}
+
+function buildTable(readings) {
+  if (!readings || readings.length === 0) return;
+  const tbody = document.getElementById('readingLog');
+  tbody.innerHTML = readings.slice().reverse().map(r => `
+    <tr class="reading-row">
+      <td>${r.timestamp}</td>
+      <td>${r.temperature ?? '—'}</td>
+      <td>${r.humidity ?? '—'}</td>
+      <td>${r.ec ?? '—'}</td>
+      <td>${r.nitrogen ?? '—'}</td>
+      <td>${r.phosphorus ?? '—'}</td>
+      <td>${r.potassium ?? '—'}</td>
+      <td>${r.ph ?? '—'}</td>
+      <td>${r.latitude ? r.latitude.toFixed(5) + ', ' + r.longitude.toFixed(5) : '—'}</td>
+    </tr>`).join('');
+}
+
+// ---- Init ----
+pollStatus();
+setInterval(pollStatus, 5000);
+</script>
+{% endblock %}

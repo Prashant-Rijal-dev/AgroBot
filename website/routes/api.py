@@ -1,7 +1,16 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 from flask_login import login_required, current_user
+from datetime import datetime
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
+
+
+def _rover_auth():
+    """Check X-Rover-Key header. Returns error response or None if OK."""
+    key = request.headers.get('X-Rover-Key') or request.args.get('key')
+    if key != current_app.config.get('ROVER_API_KEY'):
+        return jsonify({'error': 'Unauthorized — invalid rover key'}), 401
+    return None
 
 
 @api_bp.route('/health')
@@ -54,6 +63,128 @@ def sensor_history():
     from services.sensor_sim import get_historical_readings
     hours = request.args.get('hours', 24, type=int)
     return jsonify(get_historical_readings(hours=hours, user_id=current_user.id))
+
+
+@api_bp.route('/rover/data', methods=['POST'])
+def rover_data():
+    """
+    Receive sensor readings from the ESP32 rover and store in DB.
+    Auth: X-Rover-Key header.
+    Body JSON: { user_id, nitrogen, phosphorus, potassium, temperature,
+                 humidity, ec, ph (optional), latitude (optional), longitude (optional) }
+    """
+    err = _rover_auth()
+    if err: return err
+
+    data = request.get_json() or {}
+    try:
+        user_id = int(data.get('user_id', 1))
+    except (TypeError, ValueError):
+        return jsonify({'error': 'Invalid user_id'}), 400
+
+    from models import SensorReading
+    from app import db
+
+    row = SensorReading(
+        user_id     = user_id,
+        nitrogen    = data.get('nitrogen'),
+        phosphorus  = data.get('phosphorus'),
+        potassium   = data.get('potassium'),
+        temperature = data.get('temperature'),
+        humidity    = data.get('humidity'),
+        moisture    = data.get('humidity'),   # keep in sync
+        ec          = data.get('ec'),
+        ph          = data.get('ph'),
+        latitude    = data.get('latitude'),
+        longitude   = data.get('longitude'),
+    )
+    db.session.add(row)
+    db.session.commit()
+    return jsonify({'status': 'ok', 'id': row.id})
+
+
+
+@api_bp.route('/rover/status')
+@login_required
+def rover_status():
+    """
+    Return the last N rover readings with GPS for the rover control page.
+    """
+    limit = request.args.get('limit', 50, type=int)
+    from models import SensorReading
+    rows = (SensorReading.query
+            .filter_by(user_id=current_user.id)
+            .order_by(SensorReading.timestamp.desc())
+            .limit(limit).all())
+
+    if not rows:
+        return jsonify({'online': False, 'readings': [], 'trail': []})
+
+    latest = rows[0]
+    age_seconds = (datetime.utcnow() - latest.timestamp).total_seconds()
+    trail = [
+        {'lat': r.latitude, 'lng': r.longitude,
+         'timestamp': r.timestamp.isoformat()}
+        for r in reversed(rows) if r.latitude and r.longitude
+    ]
+    return jsonify({
+        'online':   age_seconds < 120,   # online if data within last 2 min
+        'last_seen': latest.timestamp.isoformat(),
+        'latest':   latest.to_dict(),
+        'trail':    trail,
+        'readings': [r.to_dict() for r in reversed(rows[:20])],
+    })
+
+
+@api_bp.route('/rover/path', methods=['POST'])
+@login_required
+def rover_path():
+    if 'image' not in request.files:
+        return jsonify({'error': 'No image provided'}), 400
+    file = request.files['image']
+    if not file or file.filename == '':
+        return jsonify({'error': 'Empty file'}), 400
+    image_bytes = file.read()
+    from services.path_detection import predict_path
+    result = predict_path(image_bytes)
+
+    # Save direction so the rover can poll it
+    from models import RoverCommand
+    from app import db
+    cmd = RoverCommand.query.filter_by(user_id=current_user.id).first()
+    if cmd:
+        cmd.direction = result.get('direction', 'STOP')
+        cmd.coverage  = result.get('coverage', 0)
+        cmd.set_at    = datetime.utcnow()
+    else:
+        cmd = RoverCommand(user_id=current_user.id,
+                           direction=result.get('direction', 'STOP'),
+                           coverage=result.get('coverage', 0))
+        db.session.add(cmd)
+    db.session.commit()
+
+    return jsonify(result)
+
+
+@api_bp.route('/rover/command')
+def rover_command():
+    """
+    ESP32 polls this to get the latest direction command.
+    Auth: X-Rover-Key header + user_id query param.
+    """
+    err = _rover_auth()
+    if err: return err
+
+    user_id = request.args.get('user_id', 1, type=int)
+    from models import RoverCommand
+    cmd = RoverCommand.query.filter_by(user_id=user_id).first()
+    if not cmd:
+        return jsonify({'direction': 'STOP', 'coverage': 0, 'set_at': None})
+    return jsonify({
+        'direction': cmd.direction,
+        'coverage':  cmd.coverage,
+        'set_at':    cmd.set_at.isoformat(),
+    })
 
 
 @api_bp.route('/field/analyze', methods=['POST'])

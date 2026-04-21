@@ -1,14 +1,16 @@
 /* AgroBot — Dashboard JS */
 
 const METRIC_CONFIG = {
-  moisture:    { label: 'Moisture (%)',     color: '#0ea5e9', low: 40,  high: 80   },
-  temperature: { label: 'Temperature (°C)', color: '#ef4444', low: 10,  high: 35   },
-  ph:          { label: 'pH',               color: '#8b5cf6', low: 5.5, high: 7.5  },
-  nitrogen:    { label: 'Nitrogen (mg/kg)', color: '#10b981', low: 30,  high: null },
+  humidity:    { label: 'Humidity (%)',      color: '#0ea5e9', low: 40,   high: 80   },
+  moisture:    { label: 'Moisture (%)',      color: '#0ea5e9', low: 40,   high: 80   },
+  temperature: { label: 'Temperature (°C)', color: '#ef4444', low: 10,   high: 35   },
+  ec:          { label: 'EC (µS/cm)',        color: '#f59e0b', low: 150,  high: 1200 },
+  ph:          { label: 'pH',               color: '#8b5cf6', low: 5.5,  high: 7.5  },
+  nitrogen:    { label: 'Nitrogen (mg/kg)', color: '#10b981', low: 30,   high: null },
 };
 
 let chart = null;
-let currentMetric = 'moisture';
+let currentMetric = 'humidity';
 let historyData = [];
 
 /* ---- Fetch history & render chart ---- */
@@ -105,6 +107,8 @@ async function refreshData() {
     flash('val-nitrogen',    Math.round(r.nitrogen));
     flash('val-phosphorus',  Math.round(r.phosphorus));
     flash('val-potassium',   Math.round(r.potassium));
+    if (r.humidity != null) flash('val-humidity', r.humidity.toFixed(1) + '%');
+    if (r.ec      != null) flash('val-ec',       Math.round(r.ec));
 
     const ts = new Date().toLocaleTimeString();
     const el = document.getElementById('lastUpdated');
@@ -140,6 +144,82 @@ function updateMLPrediction(ml) {
         ${t.crop} <span class="text-muted">${t.probability}%</span>
       </span>`
     ).join('');
+  }
+}
+
+/* ---- Rover path detection ---- */
+const DIRECTION_ICONS = {
+  LEFT:     { icon: '⬅', color: '#f59e0b' },
+  RIGHT:    { icon: '➡', color: '#f59e0b' },
+  STRAIGHT: { icon: '⬆', color: '#10b981' },
+  STOP:     { icon: '🛑', color: '#ef4444' },
+  UNKNOWN:  { icon: '⏸', color: '#9ca3af' },
+};
+
+function previewRoverImage(input) {
+  const preview = document.getElementById('roverPreview');
+  const placeholder = document.getElementById('roverPlaceholder');
+  if (!input.files || !input.files[0]) return;
+  const url = URL.createObjectURL(input.files[0]);
+  preview.src = url;
+  preview.classList.remove('d-none');
+  placeholder.classList.add('d-none');
+  // Reset result
+  document.getElementById('directionIcon').textContent = '⏸';
+  document.getElementById('directionLabel').textContent = '—';
+  document.getElementById('pathCoverage').textContent = '—';
+  document.getElementById('pathMask').classList.add('d-none');
+  document.getElementById('maskPlaceholder').classList.remove('d-none');
+}
+
+async function detectPath() {
+  const input = document.getElementById('roverImageInput');
+  const errEl = document.getElementById('roverError');
+  errEl.classList.add('d-none');
+
+  if (!input.files || !input.files[0]) {
+    errEl.textContent = 'Please select an image first.';
+    errEl.classList.remove('d-none');
+    return;
+  }
+
+  const btn = document.querySelector('[onclick="detectPath()"]');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Detecting…';
+
+  try {
+    const fd = new FormData();
+    fd.append('image', input.files[0]);
+    const res = await fetch('/api/rover/path', { method: 'POST', body: fd });
+    const data = await res.json();
+
+    if (data.error) {
+      errEl.textContent = data.error;
+      errEl.classList.remove('d-none');
+      return;
+    }
+
+    const dir = data.direction || 'UNKNOWN';
+    const cfg = DIRECTION_ICONS[dir] || DIRECTION_ICONS.UNKNOWN;
+
+    document.getElementById('directionIcon').textContent = cfg.icon;
+    const lbl = document.getElementById('directionLabel');
+    lbl.textContent = dir;
+    lbl.style.color = cfg.color;
+    document.getElementById('pathCoverage').textContent = data.coverage + '%';
+
+    if (data.mask_base64) {
+      const mask = document.getElementById('pathMask');
+      mask.src = 'data:image/png;base64,' + data.mask_base64;
+      mask.classList.remove('d-none');
+      document.getElementById('maskPlaceholder').classList.add('d-none');
+    }
+  } catch (e) {
+    errEl.textContent = 'Detection failed: ' + e.message;
+    errEl.classList.remove('d-none');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-play-fill me-1"></i>Detect Path';
   }
 }
 

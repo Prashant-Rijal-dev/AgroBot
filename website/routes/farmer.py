@@ -41,6 +41,12 @@ def history():
     return render_template('farmer/history.html', analyses=analyses)
 
 
+@farmer_bp.route('/rover')
+@login_required
+def rover_control():
+    return render_template('farmer/rover_control.html')
+
+
 @farmer_bp.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():

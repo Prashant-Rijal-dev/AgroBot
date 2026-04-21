@@ -13,6 +13,9 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Geospatial data paths — overridable via environment (used in Docker)
+    # Rover authentication token — ESP32 must send this in X-Rover-Key header
+    ROVER_API_KEY  = os.environ.get('ROVER_API_KEY') or 'agrobot-rover-key-2025'
+
     SOIL_SHAPEFILE = os.environ.get('SOIL_SHAPEFILE') or os.path.join(PROJECT_ROOT, 'parentsoil', 'soilparent.shp')
     MAIZE_TIF      = os.environ.get('MAIZE_TIF')      or os.path.join(PROJECT_ROOT, 'Datasets', 'Maize.tif')
     TOMATO_TIF     = os.environ.get('TOMATO_TIF')     or os.path.join(PROJECT_ROOT, 'Datasets', 'Tomato.tif')
